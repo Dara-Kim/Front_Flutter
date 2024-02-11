@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
-import 'package:dasori/providers/auth_provider.dart';
-import 'package:dasori/screens/login/signup.dart';
+import 'package:Front_Flutter/providers/auth_provider.dart';
+import 'package:Front_Flutter/screens/login/signup.dart';
 
 final List<String> nation_list = <String>['Vietnam', 'Philippines','China'];
 var selectedValue = '언어를 선택하세요.';

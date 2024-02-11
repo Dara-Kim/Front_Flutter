@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_calendar/screens/home/home_sreen.dart';
-import 'package:test_calendar/screens/conversation/conv_screen.dart';
+import 'package:Front_Flutter/screens/home/home.dart';
 
 class Control extends StatefulWidget {
   @override
@@ -9,7 +8,7 @@ class Control extends StatefulWidget {
 
 class _ControlState extends State<Control> {
 
-  int _selectedIndex = 0; //현재 선택된 탭의 인덱스 저장
+  int _selectedIndex = 1; //현재 선택된 탭의 인덱스 저장
 
   late TabController controller;
 
@@ -21,8 +20,8 @@ class _ControlState extends State<Control> {
         child: Scaffold(
           body: TabBarView(
             children: <Widget> [
-              Home(),
-              Container(child: Center(child: Text('conversation'),),),
+              HomeScreen(),
+              Container(child: Center(child: Text('diary'),),),
               Container(child: Center(child: Text('report'),),),
               Container(child: Center(child: Text('setting'),),)
             ],
