@@ -47,13 +47,18 @@ class _HomeState extends State<Home> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Diary",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          color: Color(0xFF8DBFD2),
-                          fontSize: 20,
-                        ),
+                      Row(
+                        children: [
+                          SizedBox(width: 10,),
+                          Text(
+                            "Diary",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              color: Color(0xFF8DBFD2),
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
                       ),
                       Text(
                           DateFormat('yyyy / MM / dd (E) ').format(_selectedDate ?? DateTime.now()),
@@ -75,6 +80,70 @@ class _HomeState extends State<Home> {
         ],
       ),
       //bottomNavigationBar: ,
+    );
+  }
+
+  // 달력의 헤더 부분에 연도와 월을 표시하는 위젯을 정의합니다.
+  Widget _buildCalendarHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          color: Colors.white,
+          onPressed: () {
+            setState(() {
+              _selectedDate = DateTime(_selectedDate.year, _selectedDate.month - 1, 1);
+            });
+          },
+        ),
+        Column(
+          children: [
+            Text(
+              '${DateFormat('yyyy').format(_selectedDate)}',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '${DateFormat('MMMM').format(_selectedDate)}',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        IconButton(
+          icon: Icon(Icons.arrow_forward_ios),
+          color: Colors.white,
+          onPressed: () {
+            setState(() {
+              _selectedDate = DateTime(_selectedDate.year, _selectedDate.month + 1, 1);
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  // 요일을 표시하는 위젯을 정의합니다.
+  Widget _buildWeekdays() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: List.generate(
+        DateTime.daysPerWeek,
+            (index) {
+          // 요일을 일요일부터 표시하도록 index 조정
+          final adjustedIndex = (index + 1) % DateTime.daysPerWeek;
+          return Text(
+            DateFormat('EEEEE').format(DateTime(2024, 1, adjustedIndex == 0 ? 7 : adjustedIndex)),
+            // 각 요일을 표시합니다.
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          );
+        },
+      ),
     );
   }
 
@@ -172,70 +241,6 @@ class _HomeState extends State<Home> {
             },
           ),
         ],
-      ),
-    );
-  }
-
-  // 달력의 헤더 부분에 연도와 월을 표시하는 위젯을 정의합니다.
-  Widget _buildCalendarHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          color: Colors.white,
-          onPressed: () {
-            setState(() {
-              _selectedDate = DateTime(_selectedDate.year, _selectedDate.month - 1, 1);
-            });
-          },
-        ),
-        Column(
-          children: [
-            Text(
-              '${DateFormat('yyyy').format(_selectedDate)}',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-            Text(
-              '${DateFormat('MMMM').format(_selectedDate)}',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        IconButton(
-          icon: Icon(Icons.arrow_forward_ios),
-          color: Colors.white,
-          onPressed: () {
-            setState(() {
-              _selectedDate = DateTime(_selectedDate.year, _selectedDate.month + 1, 1);
-            });
-          },
-        ),
-      ],
-    );
-  }
-
-  // 요일을 표시하는 위젯을 정의합니다.
-  Widget _buildWeekdays() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: List.generate(
-        DateTime.daysPerWeek,
-            (index) {
-          // 요일을 일요일부터 표시하도록 index 조정
-          final adjustedIndex = (index + 1) % DateTime.daysPerWeek;
-          return Text(
-            DateFormat('EEEEE').format(DateTime(2024, 1, adjustedIndex == 0 ? 7 : adjustedIndex)),
-            // 각 요일을 표시합니다.
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          );
-        },
       ),
     );
   }
