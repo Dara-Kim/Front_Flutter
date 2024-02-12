@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class Upload extends StatefulWidget {
   const Upload({Key? key}) : super(key: key);
@@ -36,28 +37,35 @@ class _UploadState extends State<Upload> {
         child: Center(
           child: _image == null
               ? Icon(Icons.wallpaper, size: MediaQuery.of(context).size.height * 0.15)
-              : Image.file(File(_image!.path)),
+              : Image.file(File(_image!.path),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.5,
+              fit: BoxFit.cover,
+          ),
         ),
       ),
     );
   }
 
   Widget inputText() {
-    return GestureDetector(
-      onTap: () {
-        getImage(ImageSource.gallery);
-      },
-      child: Container(
-        color: const Color(0xff8DBFD2),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.5,
-        child: Center(
-          child: Text(
-            '2024년 2월 7일 수요일'
-          )
+    return Container(
+      color: const Color(0xff8DBFD2),
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.5,
+      child: Column(
+        children: [
+          Text(
+              DateFormat('yyyy년 MM월 dd일 EEEE').format(DateTime.now()),
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize:15,
+              )
+          ),
+
+        ],
         ),
-      ),
-    );
+      );
   }
 
   @override
@@ -69,10 +77,9 @@ class _UploadState extends State<Upload> {
     return Scaffold(
         backgroundColor: const Color(0xfff4f3f9),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             showImage(),
-            inputText()
+            inputText(),
           ],
 
         )

@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         create: (context) => AuthProvider(),
         child: Consumer<AuthProvider>(
           builder: (context, auth, child) {
-            return auth.isAuthenticated ? NavBar() : Login();
+            return auth.isAuthenticated ? NavBar() : NavBar();
           },
         ),
       ),
