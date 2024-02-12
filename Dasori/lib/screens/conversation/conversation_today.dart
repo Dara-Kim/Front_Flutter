@@ -10,15 +10,21 @@ class Conversation extends StatefulWidget {
 
 class _ConversationState extends State<Conversation> with TickerProviderStateMixin {
 
+  late TabController diarytabController; // 탭 컨트롤러 선언
+
+  @override
+  void initState() {
+    super.initState();
+    diarytabController = TabController(length: 2, vsync: this); // initState에서 탭 컨트롤러 초기화
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    TabController tabController = TabController(length: 2, vsync: this);
 
     return Scaffold(
         backgroundColor: Color(0xFF8DBFD2),
         appBar: AppBar(
-          toolbarHeight: 50,
+          toolbarHeight: MediaQuery.of(context).size.height * 0.1,
           backgroundColor: Colors.white,
           title: Center(
             child: RichText(
@@ -36,7 +42,7 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
                   height: 60,
                   color: Colors.white,
                   child: TabBar(
-                    controller: tabController,
+                    controller: diarytabController,
                     unselectedLabelColor: Colors.grey,
                     tabs: [
                       Tab(
@@ -95,6 +101,7 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
                         borderRadius: BorderRadius.circular(20)
                     ),
                     child: TabBarView(
+                      controller: diarytabController,
                       children: <Widget>[
                         //부모 탭
                         SingleChildScrollView(
@@ -133,13 +140,27 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
                                           style: TextStyle(fontSize: 16,color: Color(0xFF8DBFD2)),
                                         ),
                                       ],
-                                    )
+                                    ),
+                                    Center(
+                                      child: Container(
+                                        margin: EdgeInsets.all(10),
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Color(0xFF8DBFD2),),
+                                          borderRadius:BorderRadius.circular(20)
+                                        ),
+                                        child: Container(child: Center(child: Text('부모 일기 교정본 \n 부모 일기 번역본'),),),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                             ],
                           ),
                         ),
+
+
+
                         //아이탭
                         SingleChildScrollView(
                           child: Column(
@@ -156,11 +177,9 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
                                     fit: BoxFit.cover, // 이미지가 컨테이너에 맞게 잘리도록 설정
                                   ),
                                 ),
-                                // 작성된 일기 보여줄 자리
-
-
                               ),
                               SizedBox(height: 20), // 이미지와 아래 컨테이너 사이의 간격 조정
+
                               Container(
                                 height: 500, // 스크롤 가능한 컨테이너의 높이
                                 child: Column(
@@ -177,7 +196,24 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
                                           style: TextStyle(fontSize: 16,color: Color(0xFF8DBFD2)),
                                         ),
                                       ],
-                                    )
+                                    ),
+                                    // 교정본, 번역본
+                                    Container(),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Color(0xFF8DBFD2),
+                                        ),
+                                        SizedBox(width: 8),
+                                        Text(
+                                          '작성한 일기',
+                                          style: TextStyle(fontSize: 16,color: Color(0xFF8DBFD2)),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(),
+                                    
                                   ],
                                 ),
                               ),

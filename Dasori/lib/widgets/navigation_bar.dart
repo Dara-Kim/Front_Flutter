@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:Front_Flutter/screens/home/home.dart';
-import 'package:Front_Flutter/screens/conversation/conversation.dart';
+import 'package:Front_Flutter/screens/conversation/conversation_today.dart';
 
-class Control extends StatefulWidget {
+class NavBar extends StatefulWidget {
   @override
-  _ControlState createState() => _ControlState();
+  _NavBarState createState() => _NavBarState();
 }
 
-class _ControlState extends State<Control> {
+class _NavBarState extends State<NavBar> {
 
   int _selectedIndex = 1; //현재 선택된 탭의 인덱스 저장
 
