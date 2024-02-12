@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:Front_Flutter/screens/home/home.dart';
 import 'package:Front_Flutter/screens/conversation/conversation_today.dart';
+import 'package:Front_Flutter/screens/diary/parent_diary_upload.dart';
 
 class NavBar extends StatefulWidget {
   @override
@@ -28,13 +29,14 @@ class _NavBarState extends State<NavBar> {
             ],
           ),
 
-          floatingActionButton: FloatingActionButton(onPressed: () {},
+          floatingActionButton: FloatingActionButton(
             child: Image.asset(
               'assets/dasol.png', // 원하는 이미지 파일의 경로
               width: 50.0, // 이미지의 너비
               height: 50.0, // 이미지의 높이
               fit: BoxFit.cover, // 이미지가 버튼에 맞게 잘리도록 설정
             ),
+            onPressed: () {print(_selectedIndex);Upload();},
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
@@ -46,7 +48,7 @@ class _NavBarState extends State<NavBar> {
 
   BottomAppBar _buildBottomAppBar(int _selectedIndex) {
     //리포트에서만 bottomNavBar 스타일 변경
-    if (_selectedIndex ==2) {
+    if (_selectedIndex == 2) {
       return BottomAppBar(
         color: Colors.white,
         shape: CircularNotchedRectangle(),
@@ -55,9 +57,11 @@ class _NavBarState extends State<NavBar> {
           unselectedLabelColor:Color(0xFF8DBFD2),
           indicatorColor: Colors.transparent, // 밑줄 색상을 투명으로 설정
           onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
+            print(index);
+            print(_selectedIndex);
+            // setState(() {
+            //   _selectedIndex = index;
+            // });
           },
           tabs: [
             Tab(icon: Icon(Icons.home),),
