@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // 날짜 형식을 사용하기 위한 패키지
 
-class HomeScreen extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeState createState() => _HomeState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeState extends State<Home> {
   DateTime _selectedDate = DateTime.now(); // 선택된 날짜를 현재 날짜로 초기화합니다.
 
   // 일기가 작성된 날짜들

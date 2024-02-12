@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:Front_Flutter/screens/home/home.dart';
+import 'package:Front_Flutter/screens/conversation/conversation.dart';
 
 class Control extends StatefulWidget {
   @override
@@ -20,8 +21,8 @@ class _ControlState extends State<Control> {
         child: Scaffold(
           body: TabBarView(
             children: <Widget> [
-              HomeScreen(),
-              Container(child: Center(child: Text('diary'),),),
+              Home(),
+              Conversation(),
               Container(child: Center(child: Text('report'),),),
               Container(child: Center(child: Text('setting'),),)
             ],
