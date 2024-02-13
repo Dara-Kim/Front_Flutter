@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:Front_Flutter/screens/home/home.dart';
 import 'package:Front_Flutter/screens/conversation/conversation_today.dart';
 import 'package:Front_Flutter/screens/diary/parent_diary_upload.dart';
+import 'package:Front_Flutter/screens/diary/child_diary_camera.dart';
+
 
 class NavBar extends StatefulWidget {
   @override
@@ -16,12 +18,12 @@ class _NavBarState extends State<NavBar> {
       home: DefaultTabController(
         length: 4,
         child: Scaffold(
+          // extendBody: true,
           body: TabBarView(
             children: <Widget>[
               Home(),
               Conversation(),
-              // Container(child: Center(child: Text('report'),),),
-              Upload(),
+              Container(child: Center(child: Text('report'),),),
               Container(child: Center(child: Text('setting'),),)
             ],
           ),
@@ -49,7 +51,8 @@ class _NavBarState extends State<NavBar> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Upload()),
+                            // MaterialPageRoute(builder: (context) => Upload()),
+                            MaterialPageRoute(builder: (context) => Camera()),
                           );
                         },
                       ),

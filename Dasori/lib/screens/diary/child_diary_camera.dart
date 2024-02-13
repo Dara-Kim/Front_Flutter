@@ -25,14 +25,49 @@ class _CameraState extends State<Camera> {
 
   // 이미지를 보여주는 위젯
   Widget showImage() {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return GestureDetector(
+      onTap: () {
+        getImage(ImageSource.camera);
+      },
+      child: Container(
+        color: const Color(0xff8DBFD2),
+        width: width,
+        height: height * 0.45,
+        child: _image == null
+            ? Container(
+            width: 100,
+            height: 100,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.red,
+            ),
+            child: InkWell(
+                onTap:(){getImage(ImageSource.camera);},
+                child: Image.asset("assets/gallery.png"),
+          )
+        )
+        // Icon(Icons.wallpaper, size: height * 0.12)
+            : Image.file(File(_image!.path)),
+      ),
+    );
+  }
+
+  Widget cameraGuide() {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return Container(
-        color: const Color(0xffd0cece),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.width,
-        child: Center(
-            child: _image == null
-                ? Text('No image selected.')
-                : Image.file(File(_image!.path))));
+      color: const Color(0xFFFFFFFF),
+      width: width,
+      height: height * 0.55,
+      child: Column(
+          children: [
+          ]
+      ),
+    );
   }
 
   @override
@@ -42,38 +77,20 @@ class _CameraState extends State<Camera> {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     return Scaffold(
+      // 키보드 overflow 방지
+      // resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xfff4f3f9),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 25.0),
-            showImage(),
-            SizedBox(
-              height: 50.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                // 카메라 촬영 버튼
-                FloatingActionButton(
-                  child: Icon(Icons.add_a_photo),
-                  tooltip: 'pick Iamge',
-                  onPressed: () {
-                    getImage(ImageSource.camera);
-                  },
-                ),
-
-                // 갤러리에서 이미지를 가져오는 버튼
-                FloatingActionButton(
-                  child: Icon(Icons.wallpaper),
-                  tooltip: 'pick Iamge',
-                  onPressed: () {
-                    getImage(ImageSource.gallery);
-                  },
-                ),
+        body: SingleChildScrollView(
+            child:
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                showImage(),
+                cameraGuide(),
               ],
             )
-          ],
-        ));
+        )
+
+    );
   }
 }
