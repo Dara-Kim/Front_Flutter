@@ -33,25 +33,23 @@ class _CameraState extends State<Camera> {
         getImage(ImageSource.camera);
       },
       child: Container(
-        color: const Color(0xff8DBFD2),
+        color: const Color(0xFF8DBFD2),
         width: width,
         height: height * 0.45,
         child: _image == null
-            ? Container(
-            width: 100,
-            height: 100,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.red,
-            ),
-            child: InkWell(
-                onTap:(){getImage(ImageSource.camera);},
-                child: Image.asset("assets/gallery.png"),
-          )
-        )
-        // Icon(Icons.wallpaper, size: height * 0.12)
-            : Image.file(File(_image!.path)),
-      ),
+            ? Center(
+            child: Container(
+                width: width * 0.35,
+                height: height * 0.35,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                child: InkWell(
+                  child: Image.asset("assets/gallery.png"),
+                )
+            )
+        ) : Image.file(File(_image!.path)),),
     );
   }
 
