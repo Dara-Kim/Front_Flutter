@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart'; // 날짜 형식을 사용하기 위한 패키지
+import 'package:Front_Flutter/screens/diary/child_diary_camera.dart';
 
 class Upload extends StatefulWidget {
   const Upload({Key? key}) : super(key: key);
@@ -50,7 +51,10 @@ class _UploadState extends State<Upload> {
                   child: Image.asset("assets/gallery.png"),
                 )
             )
-        ) : Image.file(File(_image!.path)),),
+        ) : Image.file(
+            File(_image!.path),
+            fit: BoxFit.cover),
+      ),
     );
   }
 
@@ -79,17 +83,17 @@ class _UploadState extends State<Upload> {
             ],
           ),
           Row(
-            children: [
-              SizedBox(width: width * 0.05),
-              Text(
-                "엄마의 일기",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: height * 0.03,
-                )
-              ),
-            ]
+              children: [
+                SizedBox(width: width * 0.05),
+                Text(
+                    "엄마의 일기",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: height * 0.03,
+                    )
+                ),
+              ]
           ),
           diaryWrite(),
           writeDone()
@@ -118,7 +122,7 @@ class _UploadState extends State<Upload> {
             hintText: "오늘의 일기를 작성하세요. \nHãy viết nhật ký hôm nay.",
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(width * 0.05),
-              ),
+            ),
           ),
         ),
       ),
@@ -141,18 +145,23 @@ class _UploadState extends State<Upload> {
         onPressed: () {
           // 여기에 부모 일기 작성하는 통신 추가
           // URL: /home/parent
+          Navigator.push(
+            context,
+            // MaterialPageRoute(builder: (context) => Upload()),
+            MaterialPageRoute(builder: (context) => Camera()),
+          );
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
               '작성 완료',
-              style: TextStyle(color: Colors.white, fontSize: height * 0.03),
+              style: TextStyle(color: Colors.white, fontSize: height * 0.023),
             ),
             SizedBox(width: 0),
             Text(
               'Hoàn thành việc',
-              style: TextStyle(color: Colors.white, fontSize: height * 0.02),
+              style: TextStyle(color: Colors.white, fontSize: height * 0.015),
             ),
           ],
         ),
@@ -167,11 +176,11 @@ class _UploadState extends State<Upload> {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     return Scaffold(
-        // 키보드 overflow 방지
-        // resizeToAvoidBottomInset: false,
+      // 키보드 overflow 방지
+      // resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xfff4f3f9),
         body: SingleChildScrollView(
-          child:
+            child:
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
