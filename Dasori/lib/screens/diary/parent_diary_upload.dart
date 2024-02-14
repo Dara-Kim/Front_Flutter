@@ -64,6 +64,7 @@ class _UploadState extends State<Upload> {
       height: height * 0.55,
       child: Column(
         children: [
+          SizedBox(height: height * 0.02),
           Row(
             children: [
               SizedBox(width: width * 0.05),
@@ -114,7 +115,7 @@ class _UploadState extends State<Upload> {
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            hintText: "오늘의 일기를 작성하세요. \n Hãy viết nhật ký hôm nay.",
+            hintText: "오늘의 일기를 작성하세요. \nHãy viết nhật ký hôm nay.",
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(width * 0.05),
               ),
@@ -129,12 +130,34 @@ class _UploadState extends State<Upload> {
     final height = MediaQuery.of(context).size.height;
 
     return Container(
-      height: height * 0.02,
-        margin: EdgeInsets.all(5),
-        child: Center(
-          child: Text('작성 완료'),
+      width: width * 0.8,
+      height: height * 0.08,
+      margin: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white),
+        borderRadius: BorderRadius.circular(60.0),
+      ),
+      child: TextButton(
+        onPressed: () {
+          // 여기에 부모 일기 작성하는 통신 추가
+          // URL: /home/parent
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              '작성 완료',
+              style: TextStyle(color: Colors.white, fontSize: height * 0.03),
+            ),
+            SizedBox(width: 0),
+            Text(
+              'Hoàn thành việc',
+              style: TextStyle(color: Colors.white, fontSize: height * 0.02),
+            ),
+          ],
         ),
-      );
+      ),
+    );
   }
 
   @override

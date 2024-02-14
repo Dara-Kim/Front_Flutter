@@ -23,8 +23,10 @@ class _NavBarState extends State<NavBar> {
             children: <Widget>[
               Home(),
               Conversation(),
-              Container(child: Center(child: Text('report'),),),
-              Container(child: Center(child: Text('setting'),),)
+              // Container(child: Center(child: Text('report'),),),
+              // Container(child: Center(child: Text('setting'),),)
+              Upload(),
+              Camera()
             ],
           ),
 
@@ -52,7 +54,7 @@ class _NavBarState extends State<NavBar> {
                           Navigator.push(
                             context,
                             // MaterialPageRoute(builder: (context) => Upload()),
-                            MaterialPageRoute(builder: (context) => Camera()),
+                            MaterialPageRoute(builder: (context) => Upload()),
                           );
                         },
                       ),
