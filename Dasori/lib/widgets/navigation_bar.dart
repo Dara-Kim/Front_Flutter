@@ -23,10 +23,8 @@ class _NavBarState extends State<NavBar> {
             children: <Widget>[
               Home(),
               Conversation(),
-              // Container(child: Center(child: Text('report'),),),
-              // Container(child: Center(child: Text('setting'),),)
-              Upload(),
-              Camera()
+              Container(child: Center(child: Text('report'),),),
+              Container(child: Center(child: Text('setting'),),)
             ],
           ),
 
