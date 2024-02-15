@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart'; // 날짜 형식을 사용하기 위한 패키지
-import 'package:Front_Flutter/screens/diary/child_diary_camera.dart';
+import 'package:Front_Flutter/screens/diary/parent_diary.dart';
 
 class Upload extends StatefulWidget {
   const Upload({Key? key}) : super(key: key);
@@ -52,8 +52,7 @@ class _UploadState extends State<Upload> {
                 )
             )
         ) : Image.file(
-            File(_image!.path),
-            fit: BoxFit.cover),
+            File(_image!.path), fit: BoxFit.contain),
       ),
     );
   }
@@ -147,8 +146,7 @@ class _UploadState extends State<Upload> {
           // URL: /home/parent
           Navigator.push(
             context,
-            // MaterialPageRoute(builder: (context) => Upload()),
-            MaterialPageRoute(builder: (context) => Camera()),
+            MaterialPageRoute(builder: (context) => ParentDone()),
           );
         },
         child: Column(
