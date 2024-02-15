@@ -50,7 +50,9 @@ class _CameraState extends State<Camera> {
                   child: Image.asset("assets/gallery.png"),
                 )
             )
-        ) : Image.file(File(_image!.path)),),
+        ) : Image.file(
+            File(_image!.path), fit: BoxFit.contain),
+        ),
     );
   }
 
