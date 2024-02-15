@@ -70,6 +70,10 @@ flutter:
     - assets/imageC.png
     - assets/imageP.png
     - assets/gallery.png
+    - assets/conv_parent_question.png
+    - assets/conv_child_question.png
+    - assets/tap.png
+    - assets/arrow_drop_down_white.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

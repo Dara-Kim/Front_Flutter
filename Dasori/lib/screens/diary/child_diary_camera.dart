@@ -114,6 +114,7 @@ class _CameraState extends State<Camera> {
               SizedBox(width: width * 0.02),
             ],
           ),
+
           SizedBox(height: height * 0.002),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
