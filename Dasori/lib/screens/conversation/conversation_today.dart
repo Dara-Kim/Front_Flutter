@@ -5,245 +5,353 @@ class Conversation extends StatefulWidget {
   const Conversation({super.key});
 
   @override
-  State<Conversation> createState() => _ConversationState();
+  _ConversationState createState() => _ConversationState();
 }
 
 class _ConversationState extends State<Conversation> with TickerProviderStateMixin {
 
-  late TabController diarytabController; // 탭 컨트롤러 선언
+  late TabController diaryTabController; // 탭 컨트롤러 선언
 
   @override
   void initState() {
     super.initState();
-    diarytabController = TabController(length: 2, vsync: this); // initState에서 탭 컨트롤러 초기화
+    diaryTabController = TabController(length: 2, vsync: this);
+    diaryTabController.addListener(_onTabChanged); // 탭 변경 이벤트 추가
+
+  }
+
+  // 탭 변경 이벤트 핸들러
+  void _onTabChanged() {
+    setState(() {}); // 화면을 다시 그려줌
   }
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-        backgroundColor: Color(0xFF8DBFD2),
-        appBar: AppBar(
-          toolbarHeight: MediaQuery.of(context).size.height * 0.1,
-          backgroundColor: Colors.white,
-          title: Center(
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(text: '일기장\nthống kê bố mẹ', style: TextStyle(color: Color(0xFF8DBFD2),),),
-            ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              children: [
-                //부모 일기 아이 일기 탭
-                Container(
-                  height: 60,
-                  color: Colors.white,
-                  child: TabBar(
-                    controller: diarytabController,
-                    unselectedLabelColor: Colors.grey,
-                    tabs: [
-                      Tab(
-                        child: RichText(
-                          textAlign: TextAlign.center, // 텍스트를 가운데 정렬
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: '부모\n',
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text: 'nhật ký của bố',
-                                style: TextStyle(color: Colors.black, fontSize: 14,),
-                              ),
-                            ],
-                          ),
+        //backgroundColor: Color(0xFF8DBFD2),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            AppBar(
+              scrolledUnderElevation: 0,
+              toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+              backgroundColor: Colors.white,
+              title: Center(
+                child: Column(
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
+                    Container(
+                      width:  MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.08,
+                      child: Text(
+                        '일기장\nthống kê bố mẹ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF8DBFD2),
+                          fontSize: 17,
                         ),
                       ),
-                      Tab(
-                        child: RichText(
-                          textAlign: TextAlign.center, // 텍스트를 가운데 정렬
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: '아이\n',
-                                style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text: 'nhật ký trẻ con',
-                                style: TextStyle(color: Colors.black, fontSize: 14,),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10,),
-                //오늘 날짜
-                Text(
-                    DateFormat('yyyy년 MM월 dd일 EEEE').format(DateTime.now()),
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize:15,
-                    )
-                ),
-                SizedBox(height: 10,),
-                Container(
-                    width: 300,
-                    height: 400,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20)
                     ),
-                    child: TabBarView(
-                      controller: diarytabController,
-                      children: <Widget>[
-                        //부모 탭
-                        SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                  ],
+                ),
+              ),
+            ),
+            //부모 일기 아이 일기 탭
+            Container(
+              //color: Colors.white,
+              child: TabBar(
+                controller: diaryTabController,
+                //indicator: BoxDecoration(),
+                //indicator: BoxDecoration(),
+                onTap: (index) {
+                  setState(() {});
+                },
+                labelColor: Colors.black,
+                unselectedLabelColor: Color(0xff8B8B8B),
+                tabs: [
+                  Tab(
+                    child: Text(
+                      '부모\nhật ký của bố',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      '아이\nnhật ký trẻ con',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+
+            Expanded(
+
+              child: Container(
+                color: Color(0xFF8DBFD2),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                      //오늘 날짜
+                      Text(
+                          DateFormat('yyyy년 MM월 dd일 EEEE').format(DateTime.now()),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize:15,
+                          )
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+
+                      //일기 보여줄 부분
+                      Container(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+                          width:  MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20)
+                          ),
+
+
+                          child: TabBarView(
+                            controller: diaryTabController,
                             children: <Widget>[
-                              Container(
-                                alignment: Alignment.center,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20), // 20의 반지름을 가진 둥근 사각형 설정
-                                  child: Image.network(
-                                    'https://as1.ftcdn.net/v2/jpg/04/22/49/54/1000_F_422495424_AkP6hAHiYBhNxZ3kZUBuYouedhej37a3.jpg',
-                                    width: 200, // 이미지의 너비
-                                    height: 200, // 이미지의 높이
-                                    fit: BoxFit.cover, // 이미지가 컨테이너에 맞게 잘리도록 설정
-                                  ),
-                                ),
-                                // 작성된 일기 보여줄 자리
 
-
-                              ),
-                              SizedBox(height: 20), // 이미지와 아래 컨테이너 사이의 간격 조정
-                              Container(
-                                height: 500, // 스크롤 가능한 컨테이너의 높이
+                              //부모 탭 일기
+                              SingleChildScrollView(
                                 child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.arrow_drop_down,
-                                          color: Color(0xFF8DBFD2),
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    //사진
+                                    Container(
+                                      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.02),
+                                      width:  MediaQuery.of(context).size.width * 0.5,
+                                      height:  MediaQuery.of(context).size.width * 0.5,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image.network(
+                                          'https://as1.ftcdn.net/v2/jpg/04/22/49/54/1000_F_422495424_AkP6hAHiYBhNxZ3kZUBuYouedhej37a3.jpg',
+                                          fit: BoxFit.cover,
                                         ),
-                                        SizedBox(width: 8),
-                                        Text(
-                                          '변경된 일기',
-                                          style: TextStyle(fontSize: 16,color: Color(0xFF8DBFD2)),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                    Center(
-                                      child: Container(
-                                        margin: EdgeInsets.all(10),
-                                        padding: EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: Color(0xFF8DBFD2),),
-                                          borderRadius:BorderRadius.circular(20)
+                                    SizedBox(height:  MediaQuery.of(context).size.height * 0.02,),
+                                    Container(
+
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.arrow_drop_down,
+                                                color: Color(0xFF8DBFD2),
+                                              ),
+                                              SizedBox(width: 8),
+                                              Text(
+                                                '변경된 일기',
+                                                style: TextStyle(fontSize: 16,color: Color(0xFF8DBFD2)),
+                                              ),
+                                            ],
+                                          ),
+                                          Center(
+                                            child: Container(
+                                              margin: EdgeInsets.all(10),
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(color: Color(0xFF8DBFD2),),
+                                                  borderRadius:BorderRadius.circular(20)
+                                              ),
+                                              child: Container(child: Center(child: Text('부모 일기 교정본 \n 부모 일기 번역본\n'),),),
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.arrow_drop_down,
+                                                color: Color(0xFF8DBFD2),
+                                              ),
+                                              SizedBox(width: 8),
+                                              Text(
+                                                '작성한 일기',
+                                                style: TextStyle(fontSize: 16,color: Color(0xFF8DBFD2)),
+                                              ),
+                                            ],
+                                          ),
+                                          Center(
+                                            child: Container(
+                                              margin: EdgeInsets.all(10),
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(color: Color(0xFF8DBFD2),),
+                                                  borderRadius:BorderRadius.circular(20)
+                                              ),
+                                              child: Container(child: Center(child: Text('부모 일기 원본'),),),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              //아이 탭 일기
+                              SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.02),
+                                      width:  MediaQuery.of(context).size.width * 0.5,
+                                      height:  MediaQuery.of(context).size.width * 0.5,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image.network(
+                                          'https://as1.ftcdn.net/v2/jpg/04/22/49/54/1000_F_422495424_AkP6hAHiYBhNxZ3kZUBuYouedhej37a3.jpg',
+                                          fit: BoxFit.cover,
                                         ),
-                                        child: Container(child: Center(child: Text('부모 일기 교정본 \n 부모 일기 번역본'),),),
+                                      ),
+                                    ),
+                                    SizedBox(height: 20), // 이미지와 아래 컨테이너 사이의 간격 조정
+
+                                    Container(// 스크롤 가능한 컨테이너의 높이
+                                      child: Column(
+                                        children: [
+                                          // 교정본, 번역본
+                                          Container(),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.arrow_drop_down,
+                                                color: Color(0xFF8DBFD2),
+                                              ),
+                                              SizedBox(width: 8),
+                                              Text(
+                                                '작성한 일기',
+                                                style: TextStyle(fontSize: 16,color: Color(0xFF8DBFD2)),
+                                              ),
+                                            ],
+                                          ),
+                                          Center(
+                                            child: Container(
+                                              margin: EdgeInsets.all(10),
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(color: Color(0xFF8DBFD2),),
+                                                  borderRadius:BorderRadius.circular(20)
+                                              ),
+                                              child: Container(child: Center(child: Text('부모 일기 교정본 \n 부모 일기 번역본'),),),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
                             ],
+                          )
+                      ),
+
+                      // 생성된 캐릭터
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              _showImagePopupParent(context);
+                            },
+                            child: Image.asset(
+                              'assets/imageP.png',
+                              width: 150,
+                              height: 250,
+                            ),
                           ),
-                        ),
 
+                          SizedBox(width: 50),
 
-
-                        //아이탭
-                        SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                alignment: Alignment.center,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20), // 20의 반지름을 가진 둥근 사각형 설정
-                                  child: Image.network(
-                                    'https://as1.ftcdn.net/v2/jpg/04/22/49/54/1000_F_422495424_AkP6hAHiYBhNxZ3kZUBuYouedhej37a3.jpg',
-                                    width: 200, // 이미지의 너비
-                                    height: 200, // 이미지의 높이
-                                    fit: BoxFit.cover, // 이미지가 컨테이너에 맞게 잘리도록 설정
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 20), // 이미지와 아래 컨테이너 사이의 간격 조정
-
-                              Container(
-                                height: 500, // 스크롤 가능한 컨테이너의 높이
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.arrow_drop_down,
-                                          color: Color(0xFF8DBFD2),
-                                        ),
-                                        SizedBox(width: 8),
-                                        Text(
-                                          '변경된 일기',
-                                          style: TextStyle(fontSize: 16,color: Color(0xFF8DBFD2)),
-                                        ),
-                                      ],
-                                    ),
-                                    // 교정본, 번역본
-                                    Container(),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.arrow_drop_down,
-                                          color: Color(0xFF8DBFD2),
-                                        ),
-                                        SizedBox(width: 8),
-                                        Text(
-                                          '작성한 일기',
-                                          style: TextStyle(fontSize: 16,color: Color(0xFF8DBFD2)),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(),
-                                    
-                                  ],
-                                ),
-                              ),
-                            ],
+                          InkWell(
+                            onTap: () {
+                              _showImagePopupChild(context);
+                            },
+                            child: Image.asset(
+                              'assets/imageC.png',
+                              width: 150,
+                              height: 250,
+                            ),
                           ),
-                        ),
-                      ],
-                    )
+                        ],
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.1,),
+                    ],
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/imageP.png',
-                      width: 150,
-                      height: 250,
-                    ),
-                    SizedBox(width: 50),
-                    Image.asset(
-                      'assets/imageC.png',
-                      width: 150,
-                      height: 250,
-                    ),
-                  ],
-                )
-
-              ],
+              ),
             ),
-          ),
+          ],
         )
     );
   }
+}
+
+void _showImagePopupParent(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.transparent,
+        content: Stack(
+          children: [
+            Image.asset(
+              'assets/conv_parent_question.png',
+            ),
+            Positioned.fill(
+                child: Center(
+                  child: Text('어떤 요리를 가장 좋아해?',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                )
+            )
+          ],
+        ),
+      );
+    },
+  );
+}
+
+void _showImagePopupChild(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.transparent,
+        content: Stack(
+          children: [
+            Image.asset(
+              'assets/conv_child_question.png',
+            ),
+            Positioned.fill(
+                child: Center(
+                  child: Text('뭘 만들었는지 말해줘!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                )
+            )
+          ],
+        ),
+      );
+    },
+  );
 }
