@@ -76,7 +76,7 @@ flutter:
     - assets/arrow_drop_down_white.png
     - assets/example0.png
 
-  # An image asset can refer to one or more resolution-specific "variants", see
+  # An image asset can refer to 1one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
   # For details regarding adding assets from package dependencies, see
