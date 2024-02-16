@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart'; // 날짜 형식을 사용하기 위한 패키지
+import 'package:intl/intl.dart';
 
 class Camera extends StatefulWidget {
   const Camera({Key? key}) : super(key: key);
