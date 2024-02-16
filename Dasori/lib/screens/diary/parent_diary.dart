@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart'; // 날짜 형식을 사용하기 위한 패키지
+import 'package:intl/intl.dart';
 
 
 class ParentDone extends StatefulWidget {
@@ -13,26 +13,23 @@ class ParentDone extends StatefulWidget {
 class _ParentDoneState extends State<ParentDone> {
   // 여기에 이미지 받아와서 담아둘 변수 설정
   // 현재는 아무 파일 받아옴 <- assets/example0.png
+  //통신 URL: /home/conversation
+  //통신: pid(variable.dart 내), date
 
   Widget showImage() {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return Column(
-      children: [
-        Container(
-          width: width,
-          height: height * 0.45,
-          child: Container(
-            child: Image.asset(
-                'assets/example0.png',
-                fit: BoxFit.cover
-                // 클릭하면 이미지만 확인하게 하는 코드 추가
-            ),
-          ),
-        )
-
-      ],
+    return Container(
+      width: width,
+      height: height * 0.45,
+      child: Container(
+        child: Image.asset(
+            'assets/example0.png',
+            fit: BoxFit.cover
+            // 클릭하면 이미지만 확인하게 하는 코드 추가
+        ),
+      ),
     );
   }
 
@@ -41,87 +38,119 @@ class _ParentDoneState extends State<ParentDone> {
     final height = MediaQuery.of(context).size.height;
     final maxLines = 8;
 
-    return SingleChildScrollView(
-      child: Container(
+    return Column(
+      children: [
+        Container(
+          //width: width,
+          //height: height * 0.55,
+          color: const Color(0xFF8DBFD2),
           child: Column(
-            children: [
-              Container(
-                width: width,
-                height: height * 0.55,
-                color: const Color(0xFF8DBFD2),
-                child: Column(
-                    children: [
-                      Column(
+              children: [
+                Column(
+                  children: [
+                    SizedBox(height: height * 0.02),
+                    Row(
+                      children: [
+                        SizedBox(width: width * 0.05),
+                        Text(
+                            DateFormat('yyyy년 MM월 dd일 EEEE').format(DateTime.now()),
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: height * 0.02,
+                            )
+                        ),
+                      ],
+                    ),
+                    Row(
                         children: [
-                          SizedBox(height: height * 0.02),
-                          Row(
-                            children: [
-                              SizedBox(width: width * 0.05),
-                              Text(
-                                  DateFormat('yyyy년 MM월 dd일 EEEE').format(DateTime.now()),
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: height * 0.02,
-                                  )
-                              ),
-                            ],
-                          ),
-                          Row(
-                              children: [
-                                SizedBox(width: width * 0.05),
-                                Text(
-                                    "엄마의 일기",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: height * 0.03,
-                                    )
-                                ),
-                              ]
-                          ),
-                          SizedBox(height: height * 0.02),
-                          Row(
-                            children: [
-                              SizedBox(width: width * 0.05),
-                              Icon(
-                                Icons.arrow_drop_down,
+                          SizedBox(width: width * 0.05),
+                          Text(
+                              "엄마의 일기",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
                                 color: Colors.white,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                '변경된 일기',
-                                style: TextStyle(fontSize: height * 0.02, color: Colors.white),
-                              ),
-                            ],
+                                fontSize: height * 0.03,
+                              )
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.01),
-                            // TextField 스크롤 되도록 바꾸기
-                            child: Container(
-                              width: width, // <-- TextField width
-                              height: height * 0.3, // <-- TextField height
-                              child: TextField(
-                                maxLines: maxLines,
-                                keyboardType: TextInputType.multiline,
-                                decoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(width * 0.05),
-                                  ),
-                                ),
-                              ),
+                        ]
+                    ),
+                    SizedBox(height: height * 0.02),
+                    Row(
+                      children: [
+                        SizedBox(width: width * 0.05),
+                        Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          '변경된 일기',
+                          style: TextStyle(fontSize: height * 0.02, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.01),
+                      // TextField 스크롤 되도록 바꾸기
+                      child: Container(
+                        width: width, // <-- TextField width
+                        height: height * 0.3, // <-- TextField height
+                        child: TextField(
+                          maxLines: maxLines,
+                          keyboardType: TextInputType.multiline,
+                          decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(width * 0.05),
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ],
+                    ),
+
+                    SizedBox(height: height * 0.02),
+                    Row(
+                      children: [
+                        SizedBox(width: width * 0.05),
+                        Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          '변경된 일기',
+                          style: TextStyle(fontSize: height * 0.02, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.01),
+                      // TextField 스크롤 되도록 바꾸기
+                      child: Container(
+                        width: width, // <-- TextField width
+                        height: height * 0.3, // <-- TextField height
+                        child: TextField(
+                          maxLines: maxLines,
+                          keyboardType: TextInputType.multiline,
+                          decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(width * 0.05),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  ],
                 ),
-              ),
-            ],
+              ],
           ),
-      ),
+        ),
+      ],
     );
   }
 
@@ -138,7 +167,7 @@ class _ParentDoneState extends State<ParentDone> {
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: [
+            children: <Widget> [
               showImage(),
               showDiary(),
             ],
