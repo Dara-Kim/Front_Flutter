@@ -4,6 +4,7 @@ import 'package:Front_Flutter/screens/conversation/conversation_today.dart';
 import 'package:Front_Flutter/screens/diary/parent_diary_upload.dart';
 import 'package:Front_Flutter/screens/diary/child_diary_camera.dart';
 import 'package:Front_Flutter/screens/report/report.dart';
+import 'package:Front_Flutter/screens/settings/settings.dart';
 
 
 class NavBar extends StatefulWidget {
@@ -25,6 +26,7 @@ class _NavBarState extends State<NavBar> {
               Home(),
               Conversation(),
               Report(),
+              Settings(),
               Container(child: Center(child: Text('setting'),),)
 
             ],
