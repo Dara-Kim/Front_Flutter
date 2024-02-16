@@ -12,6 +12,10 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
 
   late TabController diaryTabController; // 탭 컨트롤러 선언
 
+  //통신 URL: /home/conversation
+  //통신: pid(variable.dart 내), date
+
+
   @override
   void initState() {
     super.initState();
@@ -294,6 +298,7 @@ void _showImagePopupParent(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
+      //수정: 캐릭터 위치에 맞춰서 말풍선 위치 설정되도록 변경해보기
       return AlertDialog(
         backgroundColor: Colors.transparent,
         content: Stack(

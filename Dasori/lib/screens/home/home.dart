@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // 날짜 형식을 사용하기 위한 패키지
+import 'package:Front_Flutter/providers/variable.dart';
+
+
+//통신 import
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Home extends StatefulWidget {
   @override
@@ -7,14 +13,18 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  //통신 URL: /home
+  //통신: _selectedDate, pid(variable.dart 내)
   DateTime _selectedDate = DateTime.now();
-  // 일기가 작성된 날짜들
-  // 일기가 작성되어 있으면 _markedDates를 true로
+
   final Map<DateTime, bool> _markedDates = {
+    // 통신(서버->클라)completeList -> _markedDates
     DateTime(2024, 1, 5): true,
     DateTime(2024, 2, 5): true,
     DateTime(2024, 2, 9): true,
   };
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +39,8 @@ class _HomeState extends State<Home> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.03,
           ),
-          // 달력을 표시하는 위젯
-          _buildCalendar(),
+
+          _buildCalendar(), // 달력을 표시하는 위젯
 
           // 선택된 날짜에 대한 정보를 표시하는 카드(부모 일기)를 호출합니다.
           Container(
@@ -140,7 +150,7 @@ class _HomeState extends State<Home> {
           // 요일을 일요일부터 표시하도록 index 조정
           final adjustedIndex = (index + 1) % DateTime.daysPerWeek;
           return Text(
-            DateFormat('EEEEE').format(DateTime(2024, 1, adjustedIndex == 0 ? 7 : adjustedIndex)),
+            DateFormat('EEEE').format(DateTime(2024, 1, adjustedIndex == 0 ? 7 : adjustedIndex)),
             // 각 요일을 표시합니다.
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           );

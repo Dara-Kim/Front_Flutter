@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart'; // 날짜 형식을 사용하기 위한 패키지
+import 'package:intl/intl.dart';
 
 
 class ParentDone extends StatefulWidget {
@@ -13,6 +13,8 @@ class ParentDone extends StatefulWidget {
 class _ParentDoneState extends State<ParentDone> {
   // 여기에 이미지 받아와서 담아둘 변수 설정
   // 현재는 아무 파일 받아옴 <- assets/example0.png
+  //통신 URL: /home/conversation
+  //통신: pid(variable.dart 내), date
 
   Widget showImage() {
     final width = MediaQuery.of(context).size.width;

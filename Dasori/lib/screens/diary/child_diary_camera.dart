@@ -15,10 +15,13 @@ class _CameraState extends State<Camera> {
   File? _image;
   final picker = ImagePicker();
 
+  //통신 URL: /home/child
+  //통신: pid(variable.dart 내), image
+
   // 비동기 처리를 통해 카메라와 갤러리에서 이미지를 가져온다.
   Future getImage(ImageSource imageSource) async {
     final image = await picker.pickImage(source: imageSource);
-
+    // 통신(image): 선택된 이미지에 대해서 서버에 url 요청
     setState(() {
       _image = File(image!.path); // 가져온 이미지를 _image에 저장
     });

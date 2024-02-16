@@ -9,6 +9,7 @@ final List<String> nation_list = <String>['Vietnam', 'Philippines','China'];
 var selectedValue = '언어를 선택하세요.';
 
 class Login extends StatelessWidget {
+
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -82,7 +83,8 @@ class Login extends StatelessWidget {
               child: TextButton(
                 onPressed: () {
                   print('login button press');
-                  // 로그인 버튼 클릭 시 AuthProvider의 signIn 메서드 호출
+                  // 로그인 버튼 클릭 시 AuthProvider의 logIn 메서드 호출
+
                   Provider.of<AuthProvider>(context, listen: false).logIn(
                     id: _idController.text,
                     password: _passwordController.text,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // 날짜 형식을 사용하기 위한 패키지
-import 'dart:math';
+//import 'package:fl_chart/fl_chart.dart';
+import 'package:pie_chart/pie_chart.dart';
 
-// 전달 받을 데이터 : 부모 한국어 사용 비율 30일치, 부모 한국어 교정 비율
+// 전달 받을 데이터 : 부모 한국어 사용 비율 30일치, 부모 한국어 교정 비율 30일치, 아이 감정 분석 수치 7일치, 아이 맞춤법 교정 비율 30일치
 
 class Report extends StatefulWidget {
   const Report({super.key});
@@ -13,13 +14,16 @@ class Report extends StatefulWidget {
 
 class _ReportState extends State<Report> with TickerProviderStateMixin {
 
-  late TabController reportTabController; // 탭 컨트롤러 선언
+  late TabController reportTabController;
+
+  //통신 URL: /home/reports
+  //통신: pid
 
   @override
   void initState() {
     super.initState();
     reportTabController = TabController(length: 2, vsync: this);
-    reportTabController.addListener(_onTabChanged); // 탭 변경 이벤트
+    reportTabController.addListener(_onTabChanged); // 탭 변경
   }
 
   void _onTabChanged() {
@@ -128,13 +132,32 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width * 0.3,
-                                    height: MediaQuery.of(context).size.width * 0.3,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Color(0xFF8DBFD2),),
-                                        borderRadius:BorderRadius.circular(20)
-                                    ),
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Container(
+                                        child: PieChart(
+                                          dataMap: {
+                                            "한국어 사용 비율": 50,
+                                            "remains" : 50,
+                                          },
+                                          chartRadius: MediaQuery.of(context).size.width *0.25,
+                                          colorList: [Colors.blue, Colors.transparent],
+                                          chartType: ChartType.ring,
+                                          legendOptions: LegendOptions(
+                                            showLegends: false,
+                                          ),
+                                          chartValuesOptions: ChartValuesOptions(
+                                            showChartValues: false,
+                                          ),
+                                        ),
+                                      ),
+                                      Image.asset(
+                                        'assets/dasol.png',
+                                        width: MediaQuery.of(context).size.width * 0.25,
+                                        height: MediaQuery.of(context).size.width * 0.25,
+                                      ),
+                                    ],
                                   ),
                                   Text(
                                       '한국어 사용 비율',
@@ -155,13 +178,15 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width * 0.3,
-                                    height: MediaQuery.of(context).size.width * 0.3,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Color(0xFF8DBFD2),),
-                                        borderRadius:BorderRadius.circular(20)
-                                    ),
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/dasol.png',
+                                        width: MediaQuery.of(context).size.width * 0.25,
+                                        height: MediaQuery.of(context).size.width * 0.25,
+                                      ),
+                                    ],
                                   ),
                                   Text(
                                       '한국어 교정 비율',

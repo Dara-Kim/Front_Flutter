@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:Front_Flutter/screens/home/home.dart';
-import 'package:Front_Flutter/screens/conversation/conversation_today.dart';
+import 'package:Front_Flutter/screens/conversation/conversation.dart';
 import 'package:Front_Flutter/screens/diary/parent_diary_upload.dart';
 import 'package:Front_Flutter/screens/diary/child_diary_camera.dart';
 import 'package:Front_Flutter/screens/report/report.dart';
-
 
 class NavBar extends StatefulWidget {
   @override
