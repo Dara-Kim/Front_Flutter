@@ -1,3 +1,5 @@
+import 'package:Front_Flutter/screens/diary/child_diary_camera.dart';
+import 'package:Front_Flutter/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -36,15 +38,15 @@ class _ParentDoneState extends State<ParentDone> {
   Widget showDiary() {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final maxLines = 8;
 
-    return Column(
-      children: [
-        Container(
-          //width: width,
-          //height: height * 0.55,
-          color: const Color(0xFF8DBFD2),
-          child: Column(
+    return Container(
+      width: width,
+      // color: const Color(0xFF8DBFD2),
+      child: Column(
+        children: [
+          Container(
+            color: const Color(0xFF8DBFD2),
+            child: Column(
               children: [
                 Column(
                   children: [
@@ -83,33 +85,66 @@ class _ParentDoneState extends State<ParentDone> {
                           Icons.arrow_drop_down,
                           color: Colors.white,
                         ),
-                        SizedBox(width: 8),
+
                         Text(
                           '변경된 일기',
                           style: TextStyle(fontSize: height * 0.02, color: Colors.white),
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.01),
-                      // TextField 스크롤 되도록 바꾸기
-                      child: Container(
-                        width: width, // <-- TextField width
-                        height: height * 0.3, // <-- TextField height
-                        child: TextField(
-                          maxLines: maxLines,
-                          keyboardType: TextInputType.multiline,
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(width * 0.05),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
 
+                    SizedBox(height: height * 0.01),
+                    // 변경된 일기 보여주는 Container 부분
+                    Row(
+                      children: [
+                        SizedBox(width: width * 0.05),
+                        Row(
+                            children: [
+                              SizedBox(width: width * 0.02),
+                              Container(
+                                width: width * 0.86,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(width * 0.05),
+                                ),
+                                child: Column(
+                                  children: [
+                                    // 박스 내부 위 간격
+                                    SizedBox(height: height * 0.02),
+                                    Row(
+                                      children: [
+                                        SizedBox(width: width * 0.05),
+                                        Container(
+                                          width: width * 0.76,
+                                          // Text 박스 사이즈 변경
+                                          height: 7 * (height * 0.02 * 1.2),
+                                          child: SingleChildScrollView(
+                                            child: Text(
+                                              // 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트,
+                                              '',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: height * 0.02,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: width * 0.05), // 오른쪽 간격
+                                      ],
+                                    ),
+                                    // 박스 내부 아래 간격
+                                    SizedBox(height: height * 0.02),
+                                  ],
+                                ),
+
+                              ),
+                              SizedBox(width: width * 0.02),
+                            ],
+                          ),
+                        SizedBox(width: width * 0.05)
+                      ]
+                    ),
+                    
                     SizedBox(height: height * 0.02),
                     Row(
                       children: [
@@ -118,41 +153,161 @@ class _ParentDoneState extends State<ParentDone> {
                           Icons.arrow_drop_down,
                           color: Colors.white,
                         ),
-                        SizedBox(width: 8),
+
                         Text(
-                          '변경된 일기',
+                          '작성한 일기',
                           style: TextStyle(fontSize: height * 0.02, color: Colors.white),
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.01),
-                      // TextField 스크롤 되도록 바꾸기
-                      child: Container(
-                        width: width, // <-- TextField width
-                        height: height * 0.3, // <-- TextField height
-                        child: TextField(
-                          maxLines: maxLines,
-                          keyboardType: TextInputType.multiline,
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(width * 0.05),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
 
+                    SizedBox(height: height * 0.01),
+                    // 변경된 일기 보여주는 Container 부분
+                    Row(
+                        children: [
+                          SizedBox(width: width * 0.05),
+                          Row(
+                            children: [
+                              SizedBox(width: width * 0.02),
+                              Container(
+                                width: width * 0.86,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(width * 0.05),
+                                ),
+                                child: Column(
+                                  children: [
+                                    // 박스 내부 위 간격
+                                    SizedBox(height: height * 0.02),
+                                    Row(
+                                      children: [
+                                        SizedBox(width: width * 0.05),
+                                        Container(
+                                          width: width * 0.76,
+                                          // Text 박스 사이즈 변경
+                                          height: 7 * (height * 0.02 * 1.2),
+                                          child: SingleChildScrollView(
+                                            child: Text(
+                                              '',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: height * 0.02,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: width * 0.05), // 오른쪽 간격
+                                      ],
+                                    ),
+                                    // 박스 내부 아래 간격
+                                    SizedBox(height: height * 0.02),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: width * 0.02),
+                            ],
+                          ),
+                          SizedBox(width: width * 0.05)
+                        ]
+                    ),
+                    SizedBox(height: height * 0.05),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(width: width * 0.02),
+                        goToHome(),
+                        writeDone(),
+                        SizedBox(width: width * 0.02),
+                      ],
+                    ),
+                    SizedBox(height: height * 0.05),
                   ],
                 ),
               ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
+
     );
   }
+
+  Widget writeDone() {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return Container(
+      width: width * 0.4,
+      height: height * 0.08,
+      margin: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white),
+        borderRadius: BorderRadius.circular(60.0),
+      ),
+      child: TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Camera()),
+          );
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              '아이 일기 작성',
+              style: TextStyle(color: Colors.white, fontSize: height * 0.023),
+            ),
+            SizedBox(width: 0),
+            Text(
+              'Viết nhật ký',
+              style: TextStyle(color: Colors.white, fontSize: height * 0.015),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget goToHome() {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return Container(
+      width: width * 0.4,
+      height: height * 0.08,
+      margin: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white),
+        borderRadius: BorderRadius.circular(60.0),
+      ),
+      child: TextButton(
+        onPressed: () {
+          // 여기에 부모 일기 작성하는 통신 추가
+          // URL: /home/
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Home()),
+          );
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              '홈으로 가기',
+              style: TextStyle(color: Colors.white, fontSize: height * 0.023),
+            ),
+            SizedBox(width: 0),
+            Text(
+              'Đi đến trang chủ',
+              style: TextStyle(color: Colors.white, fontSize: height * 0.015),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -164,15 +319,20 @@ class _ParentDoneState extends State<ParentDone> {
       // 키보드 overflow 방지
       // resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xfff4f3f9),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget> [
-              showImage(),
-              showDiary(),
-            ],
+        body: Expanded(
+          child: Container(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  showImage(),
+                  showDiary(),
+                ],
+              ),
+            ),
           ),
-        ),
+
+        )
     );
   }
 }
