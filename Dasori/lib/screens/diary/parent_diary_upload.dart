@@ -121,6 +121,7 @@ class _UploadState extends State<Upload> {
             hintText: "오늘의 일기를 작성하세요. \nHãy viết nhật ký hôm nay.",
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(width * 0.05),
+              borderSide: BorderSide.none,
             ),
           ),
         ),
