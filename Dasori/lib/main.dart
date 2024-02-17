@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:Front_Flutter/providers/auth.dart';
 import 'package:Front_Flutter/screens/login/login.dart';
 import 'package:Front_Flutter/widgets/navigation_bar.dart';
- //import 'package:dasori/screens/diary/parent_diary_upload.dart';
+//import 'package:Front_Flutter/screens/home/home.dart';
 
 void main() {
   runApp(MyApp());
