@@ -290,6 +290,7 @@ class _ParentDoneState extends State<ParentDone> {
             MaterialPageRoute(builder: (context) => NavBar()),
           );
         },
+
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

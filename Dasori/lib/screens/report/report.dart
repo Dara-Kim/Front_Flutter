@@ -1,7 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // 날짜 형식을 사용하기 위한 패키지
-//import 'package:fl_chart/fl_chart.dart';
-import 'package:pie_chart/pie_chart.dart';
+import 'package:fl_chart/fl_chart.dart' ;
+
+
+
+//통신용 import
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // 전달 받을 데이터 : 부모 한국어 사용 비율 30일치, 부모 한국어 교정 비율 30일치, 아이 감정 분석 수치 7일치, 아이 맞춤법 교정 비율 30일치
 
@@ -16,18 +23,43 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
 
   late TabController reportTabController;
 
-  //통신 URL: /home/reports
-  //통신: pid
 
   @override
+
+  void _onTabChanged() {
+    setState(() {}); // 화면을 다시 그려줌
+  }
+
   void initState() {
     super.initState();
     reportTabController = TabController(length: 2, vsync: this);
     reportTabController.addListener(_onTabChanged); // 탭 변경
+
+    fetchData(); // 데이터 불러오기
+
   }
 
-  void _onTabChanged() {
-    setState(() {}); // 화면을 다시 그려줌
+  Future<void> fetchData() async {
+    //통신 URL: /home/reports
+    //통신: pid
+    final response = await http.post(
+      Uri.parse(''), // 서버 URL 입력
+      body: {
+        //'pid': Variable.pid,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // JSON 데이터 파싱하여 변수에 저장
+      final data = jsonDecode(response.body);
+      //Variable.pdDay1Report = Map<String, int>.from(data['pd_day1_report']);
+      //Variable.pdDay7Report = Map<String, dynamic>.from(data['pd_day7_report']);
+      //Variable.pdDay30Report = Map<String, dynamic>.from(data['pd_day30_report']);
+
+      setState(() {}); // 화면 갱신
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 
   @override
@@ -135,20 +167,28 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                                   Stack(
                                     alignment: Alignment.center,
                                     children: [
-                                      Container(
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.3,
+                                        height: MediaQuery.of(context).size.width * 0.3,
                                         child: PieChart(
-                                          dataMap: {
-                                            "한국어 사용 비율": 50,
-                                            "remains" : 50,
-                                          },
-                                          chartRadius: MediaQuery.of(context).size.width *0.25,
-                                          colorList: [Colors.blue, Colors.transparent],
-                                          chartType: ChartType.ring,
-                                          legendOptions: LegendOptions(
-                                            showLegends: false,
-                                          ),
-                                          chartValuesOptions: ChartValuesOptions(
-                                            showChartValues: false,
+                                          PieChartData(
+                                            sections: [
+                                              PieChartSectionData(
+                                                //통신(variable.dart) : day1_lang
+                                                value: 0.5,
+                                                radius: MediaQuery.of(context).size.width *0.05,
+                                                color: Colors.blue,
+                                                showTitle: false,
+                                              ),
+                                              PieChartSectionData(
+                                                //통신(variable.dart) : day1_lang
+                                                value: 1-0.5,
+                                                radius: MediaQuery.of(context).size.width *0.1,
+                                                color: Colors.transparent,
+                                                showTitle: false,
+                                              ),
+                                            ],
+                                            centerSpaceRadius: MediaQuery.of(context).size.width *0.13,
                                           ),
                                         ),
                                       ),
@@ -159,6 +199,7 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
                                   Text(
                                       '한국어 사용 비율',
                                       style: TextStyle(
@@ -181,6 +222,31 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                                   Stack(
                                     alignment: Alignment.center,
                                     children: [
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.3,
+                                        height: MediaQuery.of(context).size.width * 0.3,
+                                        child: PieChart(
+                                          PieChartData(
+                                            sections: [
+                                              PieChartSectionData(
+                                                //통신(variable.dart) : day1_correct
+                                                value: 0.75,
+                                                radius: MediaQuery.of(context).size.width *0.05,
+                                                color: Colors.grey,
+                                                showTitle: false,
+                                              ),
+                                              PieChartSectionData(
+                                                //통신(variable.dart) : day1_correct
+                                                value: 1-0.75,
+                                                radius: MediaQuery.of(context).size.width *0.1,
+                                                color: Colors.transparent,
+                                                showTitle: false,
+                                              ),
+                                            ],
+                                            centerSpaceRadius: MediaQuery.of(context).size.width *0.13,
+                                          ),
+                                        ),
+                                      ),
                                       Image.asset(
                                         'assets/dasol.png',
                                         width: MediaQuery.of(context).size.width * 0.25,
@@ -188,6 +254,7 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
                                   Text(
                                       '한국어 교정 비율',
                                       style: TextStyle(
@@ -226,7 +293,8 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                               ),
                               Container( height:1.0,
                                 width:MediaQuery.of(context).size.width * 0.2,
-                                color:Color(0xff6B6B6B),),
+                                color:Color(0xff6B6B6B),
+                              ),
                               SizedBox(width: MediaQuery.of(context).size.width * 0.01),
                             ],
                           ),
@@ -239,11 +307,69 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                               )
                           ),
                           Container(
+                            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01,),
                             width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.width * 0.5,
+                            height: MediaQuery.of(context).size.width * 0.55,
                             decoration: BoxDecoration(
                                 border: Border.all(color: Color(0xFF8DBFD2),),
                                 borderRadius:BorderRadius.circular(20)
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.7,
+                                  height: MediaQuery.of(context).size.width * 0.4,
+                                  child: BarChart(
+                                    BarChartData(
+                                      barGroups: barGroups_use([50, 60, 55, 65, 70, 80, 90]),
+                                      titlesData: FlTitlesData(
+                                        leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                        bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                      ),
+                                      minY: 0,
+                                      maxY: 100,
+                                      borderData: FlBorderData(show: false),
+                                      gridData: FlGridData(show: false),
+                                      alignment: BarChartAlignment.spaceBetween,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    // 통신(서버->클):
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 6))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 5))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 4))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 3))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 2))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 1))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text('TODAY',style: TextStyle(color: Color(0xff6B6B6B), fontSize:9,)),
+
+                                  ],
+                                )
+                              ],
                             ),
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
@@ -255,11 +381,69 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                               )
                           ),
                           Container(
+                            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01,),
                             width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.width * 0.5,
+                            height: MediaQuery.of(context).size.width * 0.55,
                             decoration: BoxDecoration(
                                 border: Border.all(color: Color(0xFF8DBFD2),),
                                 borderRadius:BorderRadius.circular(20)
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.7,
+                                  height: MediaQuery.of(context).size.width * 0.4,
+                                  child: BarChart(
+                                    BarChartData(
+                                      barGroups: barGroups_correct([50, 60, 55, 65, 70, 80, 90]),
+                                      titlesData: FlTitlesData(
+                                        leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                        bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                      ),
+                                      minY: 0,
+                                      maxY: 100,
+                                      borderData: FlBorderData(show: false),
+                                      gridData: FlGridData(show: false),
+                                      alignment: BarChartAlignment.spaceBetween,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    // 통신(서버->클): 
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 6))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 5))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 4))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 3))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 2))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 1))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text('TODAY',style: TextStyle(color: Color(0xff6B6B6B), fontSize:9,)),
+
+                                  ],
+                                )
+                              ],
                             ),
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
@@ -272,8 +456,7 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                               Container( height:1.0,
                                 width:MediaQuery.of(context).size.width * 0.2,
                                 color:Color(0xff6B6B6B),),
-                              Text(
-                                '최근 일기 30개',
+                              Text('최근 일기 30개',                                
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 20,
@@ -287,53 +470,176 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                             ],
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
-                          Stack(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                height: MediaQuery.of(context).size.width * 0.6,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Color(0xFF8DBFD2),),
-                                    borderRadius:BorderRadius.circular(20)
-                                ),
-                              ),
-                              Positioned(
-                                left: MediaQuery.of(context).size.width * 0.03,
-                                top: MediaQuery.of(context).size.height * 0.01,
-                                child: Text(
+                          Container(
+                            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01,),
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height: MediaQuery.of(context).size.width * 0.7,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xFF8DBFD2),),
+                                borderRadius:BorderRadius.circular(20)
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
                                     '일별 한국어 사용 비율',
                                     style: TextStyle(
                                       color: Color(0xff6B6B6B),
                                       fontSize:15,
                                     )
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.74,
+                                  height: MediaQuery.of(context).size.height * 0.25,
+                                  child: LineChart(
+                                    LineChartData(
+                                      lineBarsData: [
+                                        LineChartBarData(
+                                          spots: spots(),
+                                          isCurved: true,
+                                          color: Colors.lightBlueAccent,
+                                          dotData: FlDotData(show: false),
+                                          barWidth: MediaQuery.of(context).size.height * 0.008,
+                                        ),
+                                      ],
+                                      titlesData: FlTitlesData(
+                                        leftTitles: AxisTitles(sideTitles:SideTitles(showTitles: false),                                        ),
+                                        rightTitles: AxisTitles(sideTitles:SideTitles(showTitles: false)),
+                                        topTitles: AxisTitles(sideTitles:SideTitles(showTitles: false)),
+                                        bottomTitles: AxisTitles(sideTitles:SideTitles(showTitles: false)),
+                                      ),
+                                      minY: 0,
+                                      maxY: 100,
+                                      borderData: FlBorderData(show: false), // 테두리를 숨김
+                                      gridData: FlGridData(show: false),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                        '30일 전',
+                                        style: TextStyle(
+                                          color: Color(0xff6B6B6B),
+                                          fontSize:15,
+                                        )
+                                    ),
+                                    Text(
+                                        '20일 전',
+                                        style: TextStyle(
+                                          color: Color(0xff6B6B6B),
+                                          fontSize:15,
+                                        )
+                                    ),
+                                    Text(
+                                        '10일 전',
+                                        style: TextStyle(
+                                          color: Color(0xff6B6B6B),
+                                          fontSize:15,
+                                        )
+                                    ),
+                                    Text(
+                                        'TODAY',
+                                        style: TextStyle(
+                                          color: Color(0xff6B6B6B),
+                                          fontSize:15,
+                                        )
+                                    ),
+                                  ],
+                                )
+
+                              ],
+                            ),
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
-                          Stack(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                height: MediaQuery.of(context).size.width * 0.6,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Color(0xFF8DBFD2),),
-                                    borderRadius:BorderRadius.circular(20)
-                                ),
-                              ),
-                              Positioned(
-                                left: MediaQuery.of(context).size.width * 0.03,
-                                top: MediaQuery.of(context).size.height * 0.01,
-                                child: Text(
+                          Container(
+                            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01,),
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height: MediaQuery.of(context).size.width * 0.7,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xFF8DBFD2),),
+                                borderRadius:BorderRadius.circular(20)
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
                                     '일별 한국어 교정 비율',
                                     style: TextStyle(
                                       color: Color(0xff6B6B6B),
                                       fontSize:15,
                                     )
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.74,
+                                  height: MediaQuery.of(context).size.height * 0.25,
+                                  child: LineChart(
+                                    LineChartData(
+                                      lineBarsData: [
+                                        LineChartBarData(
+                                            spots: spots(),
+                                            isCurved: true,
+                                            color: Colors.green,
+                                            dotData: FlDotData(show: false),
+                                            barWidth: MediaQuery.of(context).size.height * 0.008,
+                                        ),
+                                      ],
+                                      titlesData: FlTitlesData(
+                                        leftTitles: AxisTitles(sideTitles:SideTitles(showTitles: false),                                        ),
+                                        rightTitles: AxisTitles(sideTitles:SideTitles(showTitles: false)),
+                                        topTitles: AxisTitles(sideTitles:SideTitles(showTitles: false)),
+                                        bottomTitles: AxisTitles(sideTitles:SideTitles(showTitles: false)),
+                                      ),
+                                      minY: 0,
+                                      maxY: 100,
+                                      borderData: FlBorderData(show: false), // 테두리를 숨김
+                                      gridData: FlGridData(show: false),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                        '30일 전',
+                                        style: TextStyle(
+                                          color: Color(0xff6B6B6B),
+                                          fontSize:15,
+                                        )
+                                    ),
+                                    Text(
+                                        '20일 전',
+                                        style: TextStyle(
+                                          color: Color(0xff6B6B6B),
+                                          fontSize:15,
+                                        )
+                                    ),
+                                    Text(
+                                        '10일 전',
+                                        style: TextStyle(
+                                          color: Color(0xff6B6B6B),
+                                          fontSize:15,
+                                        )
+                                    ),
+                                    Text(
+                                        'TODAY',
+                                        style: TextStyle(
+                                          color: Color(0xff6B6B6B),
+                                          fontSize:15,
+                                        )
+                                    ),
+                                  ],
+                                )
+
+                              ],
+                            ),
                           ),
+
                           SizedBox(height: MediaQuery.of(context).size.height * 0.1,),
                         ],
                       ),
@@ -384,14 +690,42 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width * 0.3,
-                                    height: MediaQuery.of(context).size.width * 0.3,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Color(0xFF8DBFD2),),
-                                        borderRadius:BorderRadius.circular(20)
-                                    ),
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.3,
+                                        height: MediaQuery.of(context).size.width * 0.3,
+                                        child: PieChart(
+                                          PieChartData(
+                                            sections: [
+                                              PieChartSectionData(
+                                                //통신(variable.dart) : day1_mood
+                                                value: 0.5,
+                                                radius: MediaQuery.of(context).size.width *0.05,
+                                                color: Colors.blue,
+                                                showTitle: false,
+                                              ),
+                                              PieChartSectionData(
+                                                //통신(variable.dart) : day1_mood
+                                                value: 1-0.5,
+                                                radius: MediaQuery.of(context).size.width *0.1,
+                                                color: Colors.transparent,
+                                                showTitle: false,
+                                              ),
+                                            ],
+                                            centerSpaceRadius: MediaQuery.of(context).size.width *0.13,
+                                          ),
+                                        ),
+                                      ),
+                                      Image.asset(
+                                        'assets/dasol.png',
+                                        width: MediaQuery.of(context).size.width * 0.25,
+                                        height: MediaQuery.of(context).size.width * 0.25,
+                                      ),
+                                    ],
                                   ),
+                                  SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
                                   Text(
                                       '아이의 오늘 기분',
                                       style: TextStyle(
@@ -411,14 +745,42 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width * 0.3,
-                                    height: MediaQuery.of(context).size.width * 0.3,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Color(0xFF8DBFD2),),
-                                        borderRadius:BorderRadius.circular(20)
-                                    ),
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.3,
+                                        height: MediaQuery.of(context).size.width * 0.3,
+                                        child: PieChart(
+                                          PieChartData(
+                                            sections: [
+                                              PieChartSectionData(
+                                                //통신(variable.dart) : day1_correct
+                                                value: 0.75,
+                                                radius: MediaQuery.of(context).size.width *0.05,
+                                                color: Colors.grey,
+                                                showTitle: false,
+                                              ),
+                                              PieChartSectionData(
+                                                //통신(variable.dart) : 1 - day1_correct
+                                                value: 1-0.75,
+                                                radius: MediaQuery.of(context).size.width *0.1,
+                                                color: Colors.transparent,
+                                                showTitle: false,
+                                              ),
+                                            ],
+                                            centerSpaceRadius: MediaQuery.of(context).size.width *0.13,
+                                          ),
+                                        ),
+                                      ),
+                                      Image.asset(
+                                        'assets/dasol.png',
+                                        width: MediaQuery.of(context).size.width * 0.25,
+                                        height: MediaQuery.of(context).size.width * 0.25,
+                                      ),
+                                    ],
                                   ),
+                                  SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
                                   Text(
                                       '교정 비율',
                                       style: TextStyle(
@@ -426,7 +788,7 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                                         fontSize:15,
                                       )
                                   ),
-                                  //추후 비율 변수 값 대입(일별 한국어 사용 비울)
+                                  //통신(서버->클) 비율 변수 값 대입(일별 한국어 사용 비울)
                                   Text('75%',
                                     style: TextStyle(
                                       color: Colors.grey,
@@ -457,7 +819,8 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                               ),
                               Container( height:1.0,
                                 width:MediaQuery.of(context).size.width * 0.2,
-                                color:Color(0xff6B6B6B),),
+                                color:Color(0xff6B6B6B),
+                              ),
                               SizedBox(width: MediaQuery.of(context).size.width * 0.01),
                             ],
                           ),
@@ -470,6 +833,7 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                               )
                           ),
                           Container(
+                            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
                             width: MediaQuery.of(context).size.width * 0.9,
                             height: MediaQuery.of(context).size.width * 0.2,
                             decoration: BoxDecoration(
@@ -479,45 +843,94 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Image.asset(
-                                  'assets/dasol.png',
-                                  width: MediaQuery.of(context).size.width * 0.1,
-                                  height: MediaQuery.of(context).size.width * 0.1,
+                                Column(
+                                  children: [
+                                    Image.asset(
+                                      'assets/dasol.png',
+                                      width: MediaQuery.of(context).size.width * 0.1,
+                                      height: MediaQuery.of(context).size.width * 0.1,
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 6))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                  ],
                                 ),
-                                Image.asset(
-                                  'assets/dasol.png',
-                                  width: MediaQuery.of(context).size.width * 0.1,
-                                  height: MediaQuery.of(context).size.width * 0.1,
+                                Column(
+                                  children: [
+                                    Image.asset(
+                                      'assets/dasol.png',
+                                      width: MediaQuery.of(context).size.width * 0.1,
+                                      height: MediaQuery.of(context).size.width * 0.1,
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 5))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                  ],
                                 ),
-                                Image.asset(
-                                  'assets/dasol.png',
-                                  width: MediaQuery.of(context).size.width * 0.1,
-                                  height: MediaQuery.of(context).size.width * 0.1,
+                                Column(
+                                  children: [
+                                    Image.asset(
+                                      'assets/dasol.png',
+                                      width: MediaQuery.of(context).size.width * 0.1,
+                                      height: MediaQuery.of(context).size.width * 0.1,
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 4))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                  ],
                                 ),
-                                Image.asset(
-                                  'assets/dasol.png',
-                                  width: MediaQuery.of(context).size.width * 0.1,
-                                  height: MediaQuery.of(context).size.width * 0.1,
+                                Column(
+                                  children: [
+                                    Image.asset(
+                                      'assets/dasol.png',
+                                      width: MediaQuery.of(context).size.width * 0.1,
+                                      height: MediaQuery.of(context).size.width * 0.1,
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 3))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                  ],
                                 ),
-                                Image.asset(
-                                  'assets/dasol.png',
-                                  width: MediaQuery.of(context).size.width * 0.1,
-                                  height: MediaQuery.of(context).size.width * 0.1,
+                                Column(
+                                  children: [
+                                    Image.asset(
+                                      'assets/dasol.png',
+                                      width: MediaQuery.of(context).size.width * 0.1,
+                                      height: MediaQuery.of(context).size.width * 0.1,
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 2))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                  ],
                                 ),
-                                Image.asset(
-                                  'assets/dasol.png',
-                                  width: MediaQuery.of(context).size.width * 0.1,
-                                  height: MediaQuery.of(context).size.width * 0.1,
+                                Column(
+                                  children: [
+                                    Image.asset(
+                                      'assets/dasol.png',
+                                      width: MediaQuery.of(context).size.width * 0.1,
+                                      height: MediaQuery.of(context).size.width * 0.1,
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 1))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                  ],
                                 ),
-                                Image.asset(
-                                  'assets/dasol.png',
-                                  width: MediaQuery.of(context).size.width * 0.1,
-                                  height: MediaQuery.of(context).size.width * 0.1,
+                                Column(
+                                  children: [
+                                    Image.asset(
+                                      'assets/dasol.png',
+                                      width: MediaQuery.of(context).size.width * 0.1,
+                                      height: MediaQuery.of(context).size.width * 0.1,
+                                    ),
+                                    Text('TODAY',style: TextStyle(color: Color(0xff6B6B6B), fontSize:11,)),
+                                  ],
                                 ),
-
-
-
-
                               ],
                             ),
                           ),
@@ -535,6 +948,64 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                             decoration: BoxDecoration(
                                 border: Border.all(color: Color(0xFF8DBFD2),),
                                 borderRadius:BorderRadius.circular(20)
+                            ),
+                            child:  Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.7,
+                                  height: MediaQuery.of(context).size.width * 0.4,
+                                  child: BarChart(
+                                    BarChartData(
+                                      //통신(variable.dart) : day7_correct
+                                      barGroups: barGroups_correct([50, 60, 55, 65, 70, 80, 90]),
+                                      titlesData: FlTitlesData(
+                                        leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                        bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                      ),
+                                      minY: 0,
+                                      maxY: 100,
+                                      borderData: FlBorderData(show: false),
+                                      gridData: FlGridData(show: false),
+                                      alignment: BarChartAlignment.spaceBetween,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    // 통신(서버->클):
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 6))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 5))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 4))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 3))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 2))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text(
+                                        DateFormat('M/dd').format(DateTime.now().subtract(Duration(days: 1))),
+                                        style: TextStyle(color: Color(0xff6B6B6B),fontSize:11,)
+                                    ),
+                                    Text('TODAY',style: TextStyle(color: Color(0xff6B6B6B), fontSize:9,)),
+
+                                  ],
+                                )
+                              ],
                             ),
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
@@ -562,28 +1033,90 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
                             ],
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
-                          Stack(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                height: MediaQuery.of(context).size.width * 0.6,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Color(0xFF8DBFD2),),
-                                    borderRadius:BorderRadius.circular(20)
-                                ),
-                              ),
-                              Positioned(
-                                left: MediaQuery.of(context).size.width * 0.03,
-                                top: MediaQuery.of(context).size.height * 0.01,
-                                child: Text(
-                                    '일별 한국어 사용 비율',
+                          Container(
+                            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01,),
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height: MediaQuery.of(context).size.width * 0.7,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xFF8DBFD2),),
+                                borderRadius:BorderRadius.circular(20)
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                    '일별 교정 비율',
                                     style: TextStyle(
                                       color: Color(0xff6B6B6B),
                                       fontSize:15,
                                     )
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.74,
+                                  height: MediaQuery.of(context).size.height * 0.25,
+                                  child: LineChart(
+                                    LineChartData(
+                                      lineBarsData: [
+                                        LineChartBarData(
+                                          //통신(variable.dart) : day30_correct
+                                          spots: spots(),
+                                          isCurved: true,
+                                          color: Colors.green,
+                                          dotData: FlDotData(show: false),
+                                          barWidth: MediaQuery.of(context).size.height * 0.008,
+                                        ),
+                                      ],
+                                      titlesData: FlTitlesData(
+                                        leftTitles: AxisTitles(sideTitles:SideTitles(showTitles: false),                                        ),
+                                        rightTitles: AxisTitles(sideTitles:SideTitles(showTitles: false)),
+                                        topTitles: AxisTitles(sideTitles:SideTitles(showTitles: false)),
+                                        bottomTitles: AxisTitles(sideTitles:SideTitles(showTitles: false)),
+                                      ),
+                                      minY: 0,
+                                      maxY: 100,
+                                      borderData: FlBorderData(show: false), // 테두리를 숨김
+                                      gridData: FlGridData(show: false),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                        '30일 전',
+                                        style: TextStyle(
+                                          color: Color(0xff6B6B6B),
+                                          fontSize:15,
+                                        )
+                                    ),
+                                    Text(
+                                        '20일 전',
+                                        style: TextStyle(
+                                          color: Color(0xff6B6B6B),
+                                          fontSize:15,
+                                        )
+                                    ),
+                                    Text(
+                                        '10일 전',
+                                        style: TextStyle(
+                                          color: Color(0xff6B6B6B),
+                                          fontSize:15,
+                                        )
+                                    ),
+                                    Text(
+                                        'TODAY',
+                                        style: TextStyle(
+                                          color: Color(0xff6B6B6B),
+                                          fontSize:15,
+                                        )
+                                    ),
+                                  ],
+                                )
+
+                              ],
+                            ),
                           ),
                           SizedBox(height: MediaQuery.of(context).size.height * 0.13,),
                         ],
@@ -597,4 +1130,59 @@ class _ReportState extends State<Report> with TickerProviderStateMixin {
         ),
     );
   }
+}
+
+// 통신(서버->클):
+List<BarChartGroupData> barGroups_use(List<double> data) {
+  List<BarChartGroupData> result = [];
+
+  for (int i = 0; i < data.length; i++) {
+    result.add(
+      BarChartGroupData(
+        x: i,
+        barRods: [
+          BarChartRodData(
+            toY: data[i],
+            color: Colors.orange,
+          ),
+        ],
+      ),
+    );
+  }
+
+  return result;
+}
+
+List<BarChartGroupData> barGroups_correct(List<double> data) {
+  List<BarChartGroupData> result = [];
+
+  for (int i = 0; i < data.length; i++) {
+    result.add(
+      BarChartGroupData(
+        x: i,
+        barRods: [
+          BarChartRodData(
+            toY: data[i],
+            color: Colors.blueAccent,
+          ),
+        ],
+      ),
+    );
+  }
+
+  return result;
+}
+
+
+//통신(서버->클):
+List<FlSpot> spots() {
+  List<FlSpot> result = [];
+
+  // 30개의 FlSpot을 생성합니다.
+  for (int i = 0; i < 30; i++) {
+    double y = Random().nextInt(71).toDouble()+30; // 0부터 100 사이의 랜덤한 값
+    result.add(FlSpot(i.toDouble(), y)); // FlSpot을 리스트에 추가합니다.
+  }
+
+  return result;
 }
