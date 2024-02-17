@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart'; // 날짜 형식을 사용하기 위한 패키지
+import 'package:intl/intl.dart';
 import 'package:Front_Flutter/screens/diary/parent_diary.dart';
 
 class Upload extends StatefulWidget {
@@ -17,8 +17,11 @@ class _UploadState extends State<Upload> {
   final picker = ImagePicker();
 
   // 비동기 처리를 통해 카메라와 갤러리에서 이미지를 가져온다.
+  //통신 URL: /home/parent
+  //통신: pid(variable.dart 내), image, text
   Future getImage(ImageSource imageSource) async {
     final image = await picker.pickImage(source: imageSource);
+    // 통신(image): 선택된 이미지에 대해서 서버에 url 요청
 
     setState(() {
       _image = File(image!.path); // 가져온 이미지를 _image에 저장
@@ -52,7 +55,7 @@ class _UploadState extends State<Upload> {
                 )
             )
         ) : Image.file(
-            File(_image!.path), fit: BoxFit.contain),
+            File(_image!.path), fit: BoxFit.contain), //통신: image
       ),
     );
   }

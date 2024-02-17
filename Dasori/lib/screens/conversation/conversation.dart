@@ -12,6 +12,10 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
 
   late TabController diaryTabController; // 탭 컨트롤러 선언
 
+  //통신 URL: /home/conversation
+  //통신: pid(variable.dart 내), date
+
+
   @override
   void initState() {
     super.initState();
@@ -20,7 +24,7 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
 
   }
 
-  // 탭 변경 이벤트 핸들러
+  // 탭 변경 이벤트
   void _onTabChanged() {
     setState(() {}); // 화면을 다시 그려줌
   }
@@ -29,7 +33,6 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
   Widget build(BuildContext context) {
 
     return Scaffold(
-        //backgroundColor: Color(0xFF8DBFD2),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -38,35 +41,23 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
               toolbarHeight: MediaQuery.of(context).size.height * 0.1,
               backgroundColor: Colors.white,
               title: Center(
-                child: Column(
-                  children: [
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
-                    Container(
-                      width:  MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.08,
-                      child: Text(
-                        '일기장\nthống kê bố mẹ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF8DBFD2),
-                          fontSize: 17,
-                        ),
-                      ),
-                    ),
-                  ],
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(text: '일기장\nthống kê bố mẹ', style: TextStyle(color: Color(0xFF8DBFD2),fontSize: 17),),
                 ),
               ),
             ),
+
             //부모 일기 아이 일기 탭
             Container(
-              //color: Colors.white,
+              color: Colors.white,
               child: TabBar(
                 controller: diaryTabController,
-                //indicator: BoxDecoration(),
-                //indicator: BoxDecoration(),
+
                 onTap: (index) {
                   setState(() {});
                 },
+
                 labelColor: Colors.black,
                 unselectedLabelColor: Color(0xff8B8B8B),
                 tabs: [
@@ -91,8 +82,6 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
                 ],
               ),
             ),
-
-
 
             Expanded(
 
@@ -309,6 +298,7 @@ void _showImagePopupParent(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
+      //수정: 캐릭터 위치에 맞춰서 말풍선 위치 설정되도록 변경해보기
       return AlertDialog(
         backgroundColor: Colors.transparent,
         content: Stack(

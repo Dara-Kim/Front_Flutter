@@ -2,7 +2,7 @@ import 'package:Front_Flutter/screens/diary/child_diary_camera.dart';
 import 'package:Front_Flutter/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart'; // 날짜 형식을 사용하기 위한 패키지
+import 'package:intl/intl.dart';
 
 
 class ParentDone extends StatefulWidget {
@@ -15,26 +15,23 @@ class ParentDone extends StatefulWidget {
 class _ParentDoneState extends State<ParentDone> {
   // 여기에 이미지 받아와서 담아둘 변수 설정
   // 현재는 아무 파일 받아옴 <- assets/example0.png
+  //통신 URL: /home/conversation
+  //통신: pid(variable.dart 내), date
 
   Widget showImage() {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return Column(
-      children: [
-        Container(
-          width: width,
-          height: height * 0.45,
-          child: Container(
-            child: Image.asset(
-                'assets/example0.png',
-                fit: BoxFit.cover
-                // 클릭하면 이미지만 확인하게 하는 코드 추가
-            ),
-          ),
-        )
-
-      ],
+    return Container(
+      width: width,
+      height: height * 0.45,
+      child: Container(
+        child: Image.asset(
+            'assets/example0.png',
+            fit: BoxFit.cover
+            // 클릭하면 이미지만 확인하게 하는 코드 추가
+        ),
+      ),
     );
   }
 
@@ -88,12 +85,14 @@ class _ParentDoneState extends State<ParentDone> {
                           Icons.arrow_drop_down,
                           color: Colors.white,
                         ),
+
                         Text(
                           '변경된 일기',
                           style: TextStyle(fontSize: height * 0.02, color: Colors.white),
                         ),
                       ],
                     ),
+
                     SizedBox(height: height * 0.01),
                     // 변경된 일기 보여주는 Container 부분
                     Row(
@@ -145,6 +144,7 @@ class _ParentDoneState extends State<ParentDone> {
                         SizedBox(width: width * 0.05)
                       ]
                     ),
+                    
                     SizedBox(height: height * 0.02),
                     Row(
                       children: [
@@ -153,12 +153,14 @@ class _ParentDoneState extends State<ParentDone> {
                           Icons.arrow_drop_down,
                           color: Colors.white,
                         ),
+
                         Text(
                           '작성한 일기',
                           style: TextStyle(fontSize: height * 0.02, color: Colors.white),
                         ),
                       ],
                     ),
+
                     SizedBox(height: height * 0.01),
                     // 변경된 일기 보여주는 Container 부분
                     Row(
