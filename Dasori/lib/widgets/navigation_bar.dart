@@ -26,8 +26,6 @@ class _NavBarState extends State<NavBar> {
               Conversation(),
               Report(),
               Settings(),
-              Container(child: Center(child: Text('setting'),),)
-
             ],
           ),
 
