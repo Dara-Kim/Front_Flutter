@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:Front_Flutter/screens/diary/child_diary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -184,7 +185,7 @@ class _CameraState extends State<Camera> {
           // URL: /home/child
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Camera()),
+            MaterialPageRoute(builder: (context) => ChildDone()),
           );
         },
         child: Column(
@@ -204,6 +205,7 @@ class _CameraState extends State<Camera> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     // 화면 세로 고정
