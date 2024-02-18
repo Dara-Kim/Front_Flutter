@@ -65,7 +65,7 @@ class _NavBarState extends State<NavBar> {
             child: Image.asset('assets/dasol.png',
               width: MediaQuery.of(context).size.height * 0.08,
               height: MediaQuery.of(context).size.height * 0.08,
-             ),
+            ),
             backgroundColor: Colors.transparent,
             shape: CircleBorder(),
           ),
