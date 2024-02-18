@@ -5,13 +5,11 @@ import 'package:intl/intl.dart'; // 날짜 형식을 사용하기 위한 패키�
 import 'package:fl_chart/fl_chart.dart' ;
 
 
-
 //통신용 import
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 // 전달 받을 데이터 : 부모 한국어 사용 비율 30일치, 부모 한국어 교정 비율 30일치, 아이 감정 분석 수치 7일치, 아이 맞춤법 교정 비율 30일치
-
 class Report extends StatefulWidget {
   const Report({super.key});
 
