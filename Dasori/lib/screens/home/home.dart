@@ -26,6 +26,9 @@ class _HomeState extends State<Home> {
   };
 
 
+  void _navigateToSecondTab() {
+    DefaultTabController.of(context)?.animateTo(1)  ;
+  }
 
   Widget calendar() {
     final width = MediaQuery.of(context).size.width;
@@ -272,53 +275,58 @@ class _HomeState extends State<Home> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return Container(
-      height: height * 0.45,
-      //padding: EdgeInsets.symmetric(vertical:height*0.01, horizontal: width*0.04),
-      decoration: ShapeDecoration(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-            )
+    return InkWell(
+      onTap: () {
+        _navigateToSecondTab(); // container를 탭하면 두 번째 탭으로 이동하도록 합니다.
+      },
+      child: Container(
+        height: height * 0.45,
+        //padding: EdgeInsets.symmetric(vertical:height*0.01, horizontal: width*0.04),
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              )
+          ),
         ),
-      ),
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(vertical: height*0.005, horizontal: width*0.05),
-            width: width,
-            height: height*0.05,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      "Diary",
-                      textAlign: TextAlign.start,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(vertical: height*0.005, horizontal: width*0.05),
+              width: width,
+              height: height*0.05,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Diary",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          color: Color(0xFF8DBFD2),
+                          fontSize: height * 0.028,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                      DateFormat('yyyy / MM / dd (E) ').format(_selectedDate ?? DateTime.now()),
+                      textAlign: TextAlign.end,
                       style: TextStyle(
                         color: Color(0xFF8DBFD2),
-                        fontSize: height * 0.028,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                    DateFormat('yyyy / MM / dd (E) ').format(_selectedDate ?? DateTime.now()),
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                      color: Color(0xFF8DBFD2),
-                      fontSize:20,
-                    )
-                ),
-              ],
+                        fontSize:20,
+                      )
+                  ),
+                ],
+              ),
             ),
-          ),
-          parentDiaryCard(), // height: height*0.2,
-          childDiaryCard() // height: height*0.2,
-        ],
+            parentDiaryCard(), // height: height*0.2,
+            childDiaryCard() // height: height*0.2,
+          ],
+        ),
       ),
     );
   }
