@@ -31,6 +31,8 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
         body: Column(
@@ -91,7 +93,7 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
                   child: Column(
                     children: [
 
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                      SizedBox(height: height * 0.01,),
                       //오늘 날짜
                       Text(
                           DateFormat('yyyy년 MM월 dd일 EEEE').format(DateTime.now()),
@@ -100,13 +102,13 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
                             fontSize:15,
                           )
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                      SizedBox(height: height * 0.01,),
 
                       //일기 보여줄 부분
                       Container(
-                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
-                          width:  MediaQuery.of(context).size.width * 0.8,
-                          height: MediaQuery.of(context).size.height * 0.5,
+                          padding: EdgeInsets.only(top: height * 0.02),
+                          width:  width * 0.9,
+                          height: height * 0.85,
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(20)
@@ -118,15 +120,17 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
                             children: <Widget>[
 
                               //부모 탭 일기
-                              SingleChildScrollView(
+                              Container(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     //사진
+                                    // SizedBox(height: height * 0.02,),
                                     Container(
-                                      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.02),
-                                      width:  MediaQuery.of(context).size.width * 0.5,
-                                      height:  MediaQuery.of(context).size.width * 0.5,
+                                      margin: EdgeInsets.symmetric(horizontal: height * 0.02),
+                                      // 사진 크기 조절
+                                      width: width * 0.75,
+                                      height: width * 0.6,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(20),
                                         child: Image.network(
@@ -135,59 +139,147 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
                                         ),
                                       ),
                                     ),
-                                    SizedBox(height:  MediaQuery.of(context).size.height * 0.02,),
+                                    SizedBox(height: height * 0.02,),
                                     Container(
-
                                       child: Column(
                                         children: [
                                           Row(
                                             children: [
+                                              SizedBox(width: width * 0.05),
                                               Icon(
                                                 Icons.arrow_drop_down,
                                                 color: Color(0xFF8DBFD2),
                                               ),
-                                              SizedBox(width: 8),
+
                                               Text(
                                                 '변경된 일기',
-                                                style: TextStyle(fontSize: 16,color: Color(0xFF8DBFD2)),
+                                                style: TextStyle(fontSize: height * 0.02, color: Color(0xFF8DBFD2)),
                                               ),
                                             ],
                                           ),
-                                          Center(
-                                            child: Container(
-                                              margin: EdgeInsets.all(10),
-                                              padding: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(color: Color(0xFF8DBFD2),),
-                                                  borderRadius:BorderRadius.circular(20)
-                                              ),
-                                              child: Container(child: Center(child: Text('부모 일기 교정본 \n 부모 일기 번역본\n'),),),
-                                            ),
+
+                                          SizedBox(height: height * 0.01),
+                                          // 변경된 일기 보여주는 Container 부분
+                                          Row(
+                                              children: [
+                                                SizedBox(width: width * 0.05),
+                                                Row(
+                                                  children: [
+                                                    SizedBox(width: width * 0.02),
+                                                    Container(
+                                                      width: width * 0.75,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius: BorderRadius.circular(width * 0.05),
+                                                        border: Border.all(color: Color(0xFF8DBFD2)),
+                                                      ),
+                                                      child: Column(
+                                                        children: [
+                                                          // 박스 내부 위 간격
+                                                          SizedBox(height: height * 0.02),
+                                                          Row(
+                                                            children: [
+                                                              SizedBox(width: width * 0.05),
+                                                              Container(
+                                                                width: width * 0.645,
+                                                                // Text 박스 사이즈 변경
+                                                                height: 6 * (height * 0.02 * 1.2),
+                                                                child: SingleChildScrollView(
+                                                                  child: Text(
+                                                                    // 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트,
+                                                                    '줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트,',
+                                                                    style: TextStyle(
+                                                                      color: Colors.black,
+                                                                      fontSize: height * 0.02,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(width: width * 0.05), // 오른쪽 간격
+                                                            ],
+                                                          ),
+                                                          // 박스 내부 아래 간격
+                                                          SizedBox(height: height * 0.02),
+                                                        ],
+                                                      ),
+
+                                                    ),
+                                                    SizedBox(width: width * 0.02),
+                                                  ],
+                                                ),
+                                                SizedBox(width: width * 0.05)
+                                              ]
                                           ),
+                                          // 작성된 일기 보여주는 Container 부분
+                                          SizedBox(height: height * 0.02,),
                                           Row(
                                             children: [
+                                              SizedBox(width: width * 0.05),
                                               Icon(
                                                 Icons.arrow_drop_down,
                                                 color: Color(0xFF8DBFD2),
                                               ),
-                                              SizedBox(width: 8),
+
                                               Text(
                                                 '작성한 일기',
-                                                style: TextStyle(fontSize: 16,color: Color(0xFF8DBFD2)),
+                                                style: TextStyle(fontSize: height * 0.02, color: Color(0xFF8DBFD2)),
                                               ),
                                             ],
                                           ),
-                                          Center(
-                                            child: Container(
-                                              margin: EdgeInsets.all(10),
-                                              padding: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(color: Color(0xFF8DBFD2),),
-                                                  borderRadius:BorderRadius.circular(20)
-                                              ),
-                                              child: Container(child: Center(child: Text('부모 일기 원본'),),),
-                                            ),
+
+                                          SizedBox(height: height * 0.01),
+                                          // 변경된 일기 보여주는 Container 부분
+                                          Row(
+                                              children: [
+                                                SizedBox(width: width * 0.05),
+                                                Row(
+                                                  children: [
+                                                    SizedBox(width: width * 0.02),
+                                                    Container(
+                                                      width: width * 0.75,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius: BorderRadius.circular(width * 0.05),
+                                                        border: Border.all(color: Color(0xFF8DBFD2)),
+                                                      ),
+                                                      child: Column(
+                                                        children: [
+                                                          // 박스 내부 위 간격
+                                                          SizedBox(height: height * 0.02),
+                                                          Row(
+                                                            children: [
+                                                              SizedBox(width: width * 0.05),
+                                                              Container(
+                                                                width: width * 0.645,
+                                                                // Text 박스 사이즈 변경
+                                                                height: 6 * (height * 0.02 * 1.2),
+                                                                child: SingleChildScrollView(
+                                                                  child: Text(
+                                                                    // 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트,
+                                                                    '줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트,',
+                                                                    style: TextStyle(
+                                                                      color: Colors.black,
+                                                                      fontSize: height * 0.02,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(width: width * 0.05), // 오른쪽 간격
+                                                            ],
+                                                          ),
+                                                          // 박스 내부 아래 간격
+                                                          SizedBox(height: height * 0.02),
+                                                        ],
+                                                      ),
+
+                                                    ),
+                                                    SizedBox(width: width * 0.02),
+                                                  ],
+                                                ),
+                                                SizedBox(width: width * 0.05)
+                                              ]
                                           ),
+                                          SizedBox(height: height * 0.03),
                                         ],
                                       ),
                                     ),
@@ -196,58 +288,100 @@ class _ConversationState extends State<Conversation> with TickerProviderStateMix
                               ),
 
                               //아이 탭 일기
-                              SingleChildScrollView(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Container(
-                                      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.02),
-                                      width:  MediaQuery.of(context).size.width * 0.5,
-                                      height:  MediaQuery.of(context).size.width * 0.5,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Image.network(
-                                          'https://as1.ftcdn.net/v2/jpg/04/22/49/54/1000_F_422495424_AkP6hAHiYBhNxZ3kZUBuYouedhej37a3.jpg',
-                                          fit: BoxFit.cover,
-                                        ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  //사진
+                                  SizedBox(height: height * 0.02,),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(horizontal: height * 0.02),
+                                    // 사진 크기 조절
+                                    width: width * 0.7,
+                                    height: width * 0.9,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.network(
+                                        'https://as1.ftcdn.net/v2/jpg/04/22/49/54/1000_F_422495424_AkP6hAHiYBhNxZ3kZUBuYouedhej37a3.jpg',
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                    SizedBox(height: 20), // 이미지와 아래 컨테이너 사이의 간격 조정
-
-                                    Container(// 스크롤 가능한 컨테이너의 높이
-                                      child: Column(
-                                        children: [
-                                          // 교정본, 번역본
-                                          Container(),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.arrow_drop_down,
-                                                color: Color(0xFF8DBFD2),
-                                              ),
-                                              SizedBox(width: 8),
-                                              Text(
-                                                '작성한 일기',
-                                                style: TextStyle(fontSize: 16,color: Color(0xFF8DBFD2)),
-                                              ),
-                                            ],
-                                          ),
-                                          Center(
-                                            child: Container(
-                                              margin: EdgeInsets.all(10),
-                                              padding: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(color: Color(0xFF8DBFD2),),
-                                                  borderRadius:BorderRadius.circular(20)
-                                              ),
-                                              child: Container(child: Center(child: Text('부모 일기 교정본 \n 부모 일기 번역본'),),),
+                                  ),
+                                  SizedBox(height: height * 0.02,),
+                                  Container(
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizedBox(width: width * 0.05),
+                                            Icon(
+                                              Icons.arrow_drop_down,
+                                              color: Color(0xFF8DBFD2),
                                             ),
-                                          ),
-                                        ],
-                                      ),
+
+                                            Text(
+                                              '변경된 일기',
+                                              style: TextStyle(fontSize: height * 0.02, color: Color(0xFF8DBFD2)),
+                                            ),
+                                          ],
+                                        ),
+
+                                        SizedBox(height: height * 0.01),
+                                        // 변경된 일기 보여주는 Container 부분
+                                        Row(
+                                            children: [
+                                              SizedBox(width: width * 0.05),
+                                              Row(
+                                                children: [
+                                                  SizedBox(width: width * 0.02),
+                                                  Container(
+                                                    width: width * 0.75,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(width * 0.05),
+                                                      border: Border.all(color: Color(0xFF8DBFD2)),
+                                                    ),
+                                                    child: Column(
+                                                      children: [
+                                                        // 박스 내부 위 간격
+                                                        SizedBox(height: height * 0.02),
+                                                        Row(
+                                                          children: [
+                                                            SizedBox(width: width * 0.05),
+                                                            Container(
+                                                              width: width * 0.645,
+                                                              // Text 박스 사이즈 변경
+                                                              height: 9 * (height * 0.02 * 1.2),
+                                                              child: SingleChildScrollView(
+                                                                child: Text(
+                                                                  // 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트,
+                                                                  '줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트, 줄 바꿈 테스트,',
+                                                                  style: TextStyle(
+                                                                    color: Colors.black,
+                                                                    fontSize: height * 0.02,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: width * 0.05), // 오른쪽 간격
+                                                          ],
+                                                        ),
+                                                        // 박스 내부 아래 간격
+                                                        SizedBox(height: height * 0.02),
+                                                      ],
+                                                    ),
+
+                                                  ),
+                                                  SizedBox(width: width * 0.02),
+                                                ],
+                                              ),
+                                              SizedBox(width: width * 0.05)
+                                            ]
+                                        ),
+                                        SizedBox(height: height * 0.03,),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
                           )
